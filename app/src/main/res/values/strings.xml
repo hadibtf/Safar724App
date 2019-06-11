@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Safar724</string>
+    <string name="error_text">مشکلی در برقراری ارتباط با سرور پیش آمده!  \nلطفا اتصال خود به اینترنت را چک کرده و دوباره تلاش کنید.</string>
+    <string name="bazgasht_text">بازگشت</string>
+    <string name="go">GO</string>
+    <string name="http">https://</string>
+    <string name="url">URL</string>
+    <string name="https">https://</string>
+</resources>
