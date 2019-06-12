@@ -1,4 +1,4 @@
-package com.safar724.app;
+package com.safar724test.app;
 
 import org.junit.Test;
 

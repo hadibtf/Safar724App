@@ -1,4 +1,4 @@
-package com.safar724.app;
+package com.safar724test.app;
 
 import android.os.Bundle;
 import android.support.v4.widget.TextViewCompat;

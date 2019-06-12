@@ -1,4 +1,4 @@
-package com.safar724.app.application;
+package com.safar724test.app.application;
 
 import android.app.Application;
 

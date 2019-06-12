@@ -1,8 +1,9 @@
-package com.safar724.app;
+package com.safar724test.app;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -13,7 +14,11 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.safar724.app.application.App;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -27,6 +32,20 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("----+: " + "failed");
+                    return;
+                }
+                // Get new Instance ID token
+                String token = task.getResult().getToken();
+                System.out.println("----+: " + token);
+            }
+
+        });
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         init();
         webView.loadUrl("file:///android_asset/test.htm");
 //        webView.loadUrl("https://mob.safar724.com");
@@ -37,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         //Initialize Views
         webView = findViewById(R.id.web_view);
         urlEditText = findViewById(R.id.urlEditText);
@@ -77,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
         urlEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    urlEditText.setText(getResources().getString(R.string.https));
-                }
+                if (hasFocus) urlEditText.setText(getResources().getString(R.string.https));
             }
         });
     }
