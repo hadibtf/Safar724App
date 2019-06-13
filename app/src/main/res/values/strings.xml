@@ -6,4 +6,5 @@
     <string name="http">https://</string>
     <string name="url">URL</string>
     <string name="https">https://</string>
+    <string name="fcm_token">dV6U47OEDwk:APA91bHqFlLQqEqkg53Aa63PF4SieZFOmo_xnPVOHfpq7Tc0yE68WmULUtmbBBG6QyewsV1CtQdA3Qq2rE2VaBuKFdITvcCM2ruvr3MRhzymcQu5iFXYZ0OP6mYRRUHOL418UNcK7Nex</string>
 </resources>

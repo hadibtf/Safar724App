@@ -1,10 +1,12 @@
-package com.safar724test.app;
+package com.safar724test.app.activities;
 
 import android.os.Bundle;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.safar724test.app.R;
 
 public class ConnectionErrorActivity extends AppCompatActivity {
     private TextView errorTextView;

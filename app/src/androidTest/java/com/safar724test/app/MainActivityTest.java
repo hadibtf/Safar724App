@@ -1,5 +1,7 @@
 package com.safar724test.app;
 
+import com.safar724test.app.activities.MainActivity;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
