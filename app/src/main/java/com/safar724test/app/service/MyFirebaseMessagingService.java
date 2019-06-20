@@ -3,32 +3,25 @@ package com.safar724test.app.service;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 
-import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.RemoteMessage;
-import com.safar724test.app.activities.MainActivity;
 import com.safar724test.app.R;
+import com.safar724test.app.objects.Data;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    //    String notifIconUrl;
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -36,35 +29,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        sendNotification(message.getData().toString());
-//        showNotification(message.getData().get("title"), message.getData().get("body"));
-        super.onMessageReceived(message);
+            System.out.println("====" + message);
+            Map<String, String> params = message.getData();
+            final Data notifData = new Data(
+                    params.get("key1"),
+                    params.get("key2"),
+                    params.get("notifIcon"),
+                    params.get("body"),
+                    params.get("title")
+            );
+            sendNotification(notifData);
+            super.onMessageReceived(message);
     }
 
-//    void showNotification(String title, String message) {
-//        NotificationManager mNotificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            NotificationChannel channel = new NotificationChannel("YOUR_CHANNEL_ID",
-//                    "YOUR_CHANNEL_NAME",
-//                    NotificationManager.IMPORTANCE_DEFAULT);
-//            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DISCRIPTION");
-//            mNotificationManager.createNotificationChannel(channel);
-//        }
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "YOUR_CHANNEL_ID")
-//                .setSmallIcon(R.mipmap.ic_launcher) // notification icon
-//                .setContentTitle(title) // title for notification
-//                .setContentText(message)// message for notification
-//                .setAutoCancel(true); // clear notification after click
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        mBuilder.setContentIntent(pi);
-//        mNotificationManager.notify(0, mBuilder.build());
-//    }
-
-    private void sendNotification(String messageBody) {
+    private void sendNotification(Data notifData) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            String channelId = getApplicationContext().getString(R.string.myChannelName);
+            String channelId = getResources().getString(R.string.CHANNEL_ID);
             CharSequence channelName = "Test Channel";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -74,7 +54,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         RemoteViews small = new RemoteViews(getPackageName(), R.layout.custom_notification_collapsed);
         RemoteViews big = new RemoteViews(getPackageName(), R.layout.custom_notification_expanded);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getResources().getString(R.string.myChannelName))
+        big.setTextViewText(R.id.expanded_notif_title, notifData.getTitle());
+        big.setTextViewText(R.id.expanded_notif_info, notifData.getBody());
+        small.setTextViewText(R.id.collapsed_notif_title, notifData.getTitle());
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getResources().getString(R.string.CHANNEL_ID))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
@@ -82,5 +65,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setCustomBigContentView(big);
         notificationManagerCompat.notify(1, builder.build());
     }
-
 }

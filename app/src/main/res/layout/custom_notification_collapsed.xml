@@ -6,8 +6,9 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/TextAppearance.Compat.Notification.Info"
+        android:id="@+id/collapsed_notif_title"
+        style="@style/TextAppearance.Compat.Notification.Title"
+        android:text="hello world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="fasdsadfasefwsd fdasfewrfs" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
