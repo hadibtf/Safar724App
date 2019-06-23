@@ -50,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         //Loads the default Cache Policy
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setGeolocationEnabled(true);
         webView.canGoBack();
         //Customize WebViewClient
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.getSettings().setJavaScriptEnabled(true);
                 HashMap<String, String> headerExtras = new HashMap<>();
                 headerExtras.put("ANDROID_HEADER_EXTRA", "HELLO_WORLD");
                 view.loadUrl(url, headerExtras);

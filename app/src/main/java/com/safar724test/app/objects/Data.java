@@ -1,8 +1,13 @@
 package com.safar724test.app.objects;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Data {
-    final private String key2;
     final private String key1;
+    final private String key2;
     final private String notifIcon;
     final private String body;
     final private String title;
@@ -14,6 +19,7 @@ public class Data {
         this.body = body;
         this.title = title;
     }
+
 
     public String getKey2() {
         return key2;

@@ -6,8 +6,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import java.util.Map;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    public static final String MyPREFERENCES = "MyPrefs";
+
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -29,17 +34,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
-            System.out.println("====" + message);
-            Map<String, String> params = message.getData();
-            final Data notifData = new Data(
-                    params.get("key1"),
-                    params.get("key2"),
-                    params.get("notifIcon"),
-                    params.get("body"),
-                    params.get("title")
-            );
-            sendNotification(notifData);
-            super.onMessageReceived(message);
+        System.out.println("====" + message);
+
+
+        Map<String, String> params = message.getData();
+        JSONObject object = new JSONObject(params);
+        final Data notifData = new Data(
+                params.get("key1"),
+                params.get("key2"),
+                params.get("notifIcon"),
+                params.get("body"),
+                params.get("title")
+        );
+        SharedPreferences sharedPref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        try {
+            editor.putString("notif_data",object.getString("notif_data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        editor.commit();
+        sendNotification(notifData);
+        super.onMessageReceived(message);
     }
 
     private void sendNotification(Data notifData) {

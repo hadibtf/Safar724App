@@ -3,15 +3,21 @@ package com.safar724test.app.application;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.safar724test.app.R;
 
 public class App extends Application {
     private String recentUrl;
+    private static final String MyPREFERENCES = "MyPrefs";
+    private SharedPreferences sharedPref;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        Context context = this;
     }
 
 //    private void createNotificationChannel() {

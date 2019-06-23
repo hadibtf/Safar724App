@@ -10,13 +10,13 @@
     <application
         android:name=".application.App"
         android:allowBackup="true"
+        android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="whateverString">
+        tools:replace="android:appComponentFactory">
         <service
             android:name=".service.MyFirebaseMessagingService"
             android:exported="false">
@@ -40,12 +40,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name=".activities.ConnectionErrorActivity" >
 
         </activity>
 
+        <activity android:name=".activities.ConnectionErrorActivity">
+
+        </activity>
+        <activity android:name=".activities.NotificationsActivity">
+
+        </activity>
     </application>
 
 </manifest>
