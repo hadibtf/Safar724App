@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.safar724test.app.R;
+import com.safar724test.app.models.InAppNotificationModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ import java.util.Map;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
-    private List<Map<String, String>> dataList;
+    private List<InAppNotificationModel> dataList;
 
-    public MyAdapter(Context context, List<Map<String, String>> dataList) {
+    public MyAdapter(Context context, List<InAppNotificationModel> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -36,8 +37,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
-        holder.notifText.setText(dataList.get(position).get("Body"));
-        Picasso.get().load(dataList.get(position).get("imageSrc")).into(holder.notifImage);
+        holder.notifText.setText(dataList.get(position).getNotifDescription());
+        Picasso.get().load(dataList.get(position).getNotifIconUrl());
     }
 
     @Override

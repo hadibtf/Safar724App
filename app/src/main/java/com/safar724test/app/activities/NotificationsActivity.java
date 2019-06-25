@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
+import com.safar724test.app.models.InAppNotificationModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class NotificationsActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Map<String, String>> dataList = new ArrayList<>();
+    private List<InAppNotificationModel> dataList = new ArrayList<>();
     public static final String MyPREFERENCES = "MyPrefs";
 
 
@@ -36,12 +37,13 @@ public class NotificationsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         try {
-            JSONArray array = new JSONArray(sharedPref.getString("notif_data",""));
+            JSONArray array = new JSONArray(sharedPref.getString("notif_data", ""));
             editor.commit();
             for (int i = 0; i <= array.length(); i++) {
-                Map<String,String> data = new HashMap<>();
-                data.put("Body",array.getJSONObject(i).getString("body"));
-                data.put("imageSrc",array.getJSONObject(i).getString("notif_icon"));
+                InAppNotificationModel data = new InAppNotificationModel(
+                        array.getJSONObject(i).getString("body"),
+                        array.getJSONObject(i).getString("notif_icon")
+                );
                 dataList.add(data);
             }
         } catch (JSONException e) {

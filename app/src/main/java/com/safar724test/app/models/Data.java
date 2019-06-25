@@ -1,9 +1,4 @@
-package com.safar724test.app.objects;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package com.safar724test.app.models;
 
 public class Data {
     final private String key1;
@@ -21,12 +16,12 @@ public class Data {
     }
 
 
-    public String getKey2() {
-        return key2;
-    }
-
     public String getKey1() {
         return key1;
+    }
+
+    public String getKey2() {
+        return key2;
     }
 
     public String getNotifIcon() {

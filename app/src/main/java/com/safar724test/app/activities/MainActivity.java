@@ -1,5 +1,6 @@
 package com.safar724test.app.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
 import com.safar724test.app.R;
 
 import java.util.HashMap;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl(urlEditText.getText().toString());
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void init() {
         //Initialize Views
         webView = findViewById(R.id.web_view);
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.getSettings().setJavaScriptEnabled(true);
+
                 HashMap<String, String> headerExtras = new HashMap<>();
                 headerExtras.put("ANDROID_HEADER_EXTRA", "HELLO_WORLD");
                 view.loadUrl(url, headerExtras);

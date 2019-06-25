@@ -12,11 +12,10 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.safar724test.app.R;
-import com.safar724test.app.objects.Data;
+import com.safar724test.app.models.Data;
 
 import org.json.JSONException;
 import org.json.JSONObject;
