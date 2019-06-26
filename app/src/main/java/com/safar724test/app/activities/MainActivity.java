@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean clickedOnce = false;
     private String requestHeaders;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);

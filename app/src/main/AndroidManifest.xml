@@ -35,11 +35,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
@@ -47,6 +42,14 @@
 
         </activity>
         <activity android:name=".activities.NotificationsActivity">
+
+        </activity>
+        <activity android:name=".activities.WebViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
     </application>
