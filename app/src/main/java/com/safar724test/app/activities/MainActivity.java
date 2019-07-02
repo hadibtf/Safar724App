@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,6 +23,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.safar724test.app.R;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
         init();
@@ -45,15 +47,28 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void init() {
+        //Hide ActionBar
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
+        //Set Activity Layout
+        setContentView(R.layout.activity_main);
+
         //Initialize Views
         webView = findViewById(R.id.web_view);
+
         urlEditText = findViewById(R.id.urlEditText);
+
         //Set the webView required settings
         webView.getSettings().setJavaScriptEnabled(true);
+
         //Loads the default Cache Policy
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+
         webView.getSettings().setGeolocationEnabled(true);
+
+        //Allows WebView to go back
         webView.canGoBack();
+
         //Customize WebViewClient
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -64,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 view.loadUrl(url, headerExtras);
                 //When a new url is loaded, checks if the url matches the the preferred url.
                 if (url.contains("#test")) {
-                    Toast.makeText(getApplicationContext(),requestHeaders,Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(), ConnectionErrorActivity.class).putExtra("header",requestHeaders));
+                    Toast.makeText(getApplicationContext(), requestHeaders, Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), ConnectionErrorActivity.class).putExtra("header", requestHeaders));
                 }
                 return super.shouldOverrideUrlLoading(view, url);
             }
@@ -79,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (url.contains("#test")) {
-                    startActivity(new Intent(getApplicationContext(), ConnectionErrorActivity.class).putExtra("header",requestHeaders));
+                    startActivity(new Intent(getApplicationContext(), ConnectionErrorActivity.class).putExtra("header", requestHeaders));
                 }
                 super.onPageFinished(view, url);
             }
@@ -94,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic("safar724").addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(),"topic created!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "topic created!", Toast.LENGTH_LONG).show();
             }
         });
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -119,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         clickedOnce = true;
-        Toast.makeText(this,"Press Back again to exit!",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Press Back again to exit!", Toast.LENGTH_LONG).show();
         webView.goBack();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -127,6 +142,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 clickedOnce = false;
             }
-        },2000);
+        }, 2000);
     }
 }

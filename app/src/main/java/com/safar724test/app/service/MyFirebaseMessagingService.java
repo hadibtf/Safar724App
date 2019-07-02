@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.safar724test.app.R;
-import com.safar724test.app.models.Data;
+import com.safar724test.app.models.Notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Map<String, String> params = message.getData();
         JSONObject object = new JSONObject(params);
-        final Data notifData = new Data(
+        final Notification notifData = new Notification(
                 params.get("key1"),
                 params.get("key2"),
                 params.get("notifIcon"),
@@ -57,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(message);
     }
 
-    private void sendNotification(Data notifData) {
+    private void sendNotification(Notification notifData) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             String channelId = getResources().getString(R.string.CHANNEL_ID);
             CharSequence channelName = "Test Channel";
@@ -69,9 +69,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         RemoteViews small = new RemoteViews(getPackageName(), R.layout.custom_notification_collapsed);
         RemoteViews big = new RemoteViews(getPackageName(), R.layout.custom_notification_expanded);
-        big.setTextViewText(R.id.expanded_notif_title, notifData.getTitle());
-        big.setTextViewText(R.id.expanded_notif_info, notifData.getBody());
-        small.setTextViewText(R.id.collapsed_notif_title, notifData.getTitle());
+        big.setTextViewText(R.id.expanded_notif_title, notifData.title);
+        big.setTextViewText(R.id.expanded_notif_info, notifData.body);
+        small.setTextViewText(R.id.collapsed_notif_title, notifData.title);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getResources().getString(R.string.CHANNEL_ID))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

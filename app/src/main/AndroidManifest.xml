@@ -36,15 +36,17 @@
             android:name=".activities.MainActivity"
             android:windowSoftInputMode="adjustPan">
 
+
         </activity>
 
         <activity android:name=".activities.ConnectionErrorActivity">
 
-        </activity>
-        <activity android:name=".activities.NotificationsActivity">
+
 
         </activity>
-        <activity android:name=".activities.WebViewActivity">
+
+        <activity android:name=".activities.NotificationsActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,6 +54,13 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name=".activities.WebViewActivity">
+
+
+
+        </activity>
+
     </application>
 
 </manifest>

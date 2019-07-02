@@ -8,8 +8,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class WebViewActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
@@ -20,12 +20,24 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(myWebView);
         myWebView.loadUrl("https://mob.safar724.com");
         myWebView.getSettings().setJavaScriptEnabled(true);
-//        Date date = new Date("2019,6,26");
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd");
-//        calendar.set();
 
-        System.out.println("=====>" + simpleDateFormat.format(calendar.getTime()));
-        Toast.makeText(this, simpleDateFormat.format(calendar.getTime()), Toast.LENGTH_LONG).show();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/mm/dd");
+
+        Calendar today = Calendar.getInstance();
+        Calendar expirationDate = Calendar.getInstance();
+        String xDate = "2019/12/25";
+        String[] stringDateItems = xDate.split("/");
+        ArrayList<Integer> intDateItems = new ArrayList<>();
+        for (String dateItem : stringDateItems) {
+            intDateItems.add(Integer.parseInt(dateItem));
+        }
+        expirationDate.set(intDateItems.get(0), intDateItems.get(1), intDateItems.get(2));
+
+        System.out.println("=====>now" + simpleDateFormat.format(today.getTime()));
+        System.out.println("=====>notif" + simpleDateFormat.format(expirationDate.getTime()));
+        if (expirationDate.before(today)) {
+            System.out.println("========expired");
+        }
+        Toast.makeText(this, simpleDateFormat.format(today.getTime()), Toast.LENGTH_LONG).show();
     }
 }
