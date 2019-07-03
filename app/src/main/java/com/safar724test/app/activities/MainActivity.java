@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void init() {
-        //Hide ActionBar
-        Objects.requireNonNull(getSupportActionBar()).hide();
-
         //Set Activity Layout
         setContentView(R.layout.activity_main);
 

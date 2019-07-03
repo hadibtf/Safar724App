@@ -33,8 +33,10 @@
             android:value="@string/CHANNEL_ID" />
 
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.MainActivity"
             android:windowSoftInputMode="adjustPan">
+
 
 
         </activity>

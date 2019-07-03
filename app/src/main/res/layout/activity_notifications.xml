@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:onClick="toolbar_back_bt"
+                    android:onClick="toolbarBackBt"
                     android:focusable="true"
                     android:clickable="true"
                     android:foreground="?attr/selectableItemBackgroundBorderless"

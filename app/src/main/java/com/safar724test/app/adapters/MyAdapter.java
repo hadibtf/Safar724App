@@ -23,10 +23,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
     private List<NotificationData> dataList;
     private int lastPosition = -1;
+
     private OnNotifItemClickListener onNotifItemClickListener;
 
     public interface OnNotifItemClickListener {
-        void onItemClicked(int position, NotificationData notificationData);
+        void onItemClicked(int position);
     }
 
     public MyAdapter(
@@ -42,21 +43,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.recycler_view_item, parent, false);
-        return new MyAdapter.ViewHolder(view);
+        return new MyAdapter.ViewHolder(view, onNotifItemClickListener);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
-        holder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNotifItemClickListener.onItemClicked(position, dataList.get(position));
-            }
-        });
         setAnimation(holder.itemView, position);
-        holder.notifText.setText(dataList.get(position).notifDescription);
-        Picasso.get().load(dataList.get(position).notifIconUrl).into(holder.notifImage);
+        holder.notifText.setText(dataList.get(position).description);
+        Picasso.get().load(dataList.get(position).iconUrl).into(holder.notifImage);
     }
 
     @Override
@@ -65,26 +60,36 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return dataList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView notifImage;
         TextView notifText;
         LinearLayout item;
+        OnNotifItemClickListener onNotifItemClickListener;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
             notifText = itemView.findViewById(R.id.notif_text);
             item = itemView.findViewById(R.id.item);
+            this.onNotifItemClickListener = onNotifItemClickListener;
+            item.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onNotifItemClickListener.onItemClicked(getAdapterPosition());
         }
     }
 
     public void addItem(NotificationData notificationData, int index) {
         dataList.add(index, notificationData);
         notifyItemInserted(index);
+        notifyDataSetChanged();
     }
 
-    public void resetData() {
+    public void updateDataList(List<NotificationData> notificationDataList) {
         dataList.clear();
+        dataList = notificationDataList;
     }
 
     private void setAnimation(View viewToAnimate, int position) {
