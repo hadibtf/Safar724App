@@ -10,14 +10,12 @@ import android.content.Context;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.safar724test.app.R;
 import com.safar724test.app.databases.NotificationDataDatabase;
+import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.Notification;
 import com.safar724test.app.models.NotificationData;
 
@@ -40,10 +38,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage message) {
         System.out.println("====" + message);
 
-        NotificationDataDatabase database = NotificationDataDatabase.getInstance(getApplicationContext());
+        NotificationDataDao dao = NotificationDataDatabase.getInstance(getApplicationContext()).notificationDataDao();
 
         Map<String, String> params = message.getData();
         JSONObject object = new JSONObject(params);
+        System.out.println("====" + object.toString());
+
         final Notification notifData = new Notification(
                 params.get("key1"),
                 params.get("key2"),
@@ -52,26 +52,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 params.get("body"),
                 params.get("title")
         );
-//        SharedPreferences sharedPref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPref.edit();
         try {
-//            editor.putString("notif_data",object.getString("notif_data"));
-//            NotificationData data = new NotificationData();
             JSONArray array = new JSONArray(object.getString("notif_data"));
+            System.out.println("===="+array.getJSONObject(0).getString("description"));
             for (int i = 0; i <= array.length(); i++) {
                 NotificationData data = new NotificationData(
-                        i,
-                        array.getJSONObject(i).getString("body"),
+                        array.getJSONObject(i).getString("description"),
                         array.getJSONObject(i).getString("notif_icon"),
                         array.getJSONObject(i).getString("url")
                 );
-                Toast.makeText(getApplicationContext(),String.valueOf(i),Toast.LENGTH_SHORT).show();
-                database.notificationDataDao().insertNotificationData(data);
+                dao.insertNotificationData(data);
             }
         } catch (JSONException e) {
+            System.out.println("===="+e);
             e.printStackTrace();
         }
-//        editor.commit();
         sendNotification(notifData);
         super.onMessageReceived(message);
     }

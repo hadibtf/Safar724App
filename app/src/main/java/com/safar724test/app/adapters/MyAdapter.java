@@ -32,10 +32,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public MyAdapter(
             Context context,
-            List<NotificationData> dataList,
+//            List<NotificationData> dataList,
             OnNotifItemClickListener onNotifItemClickListener) {
         this.context = context;
-        this.dataList = dataList;
+//        this.dataList = dataList;
         this.onNotifItemClickListener = onNotifItemClickListener;
     }
 
@@ -100,5 +100,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
+    }
+
+    public void setData(List<NotificationData> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
     }
 }

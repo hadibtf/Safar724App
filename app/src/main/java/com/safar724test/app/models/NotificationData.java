@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity (tableName = "notificationdata")
+@Entity
 public class NotificationData {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    public int id;
     @ColumnInfo(name = "description")
     final public String description;
     @ColumnInfo(name = "iconUrl")
@@ -20,14 +20,9 @@ public class NotificationData {
 //    final public String expirationDate = null;
 
 
-    public NotificationData(int id,String description, String iconUrl, String url) {
-        this.id = id;
+    public NotificationData(String description, String iconUrl, String url) {
         this.description = description;
         this.iconUrl = iconUrl;
         this.url = url;
-    }
-
-    public int getId() {
-        return id;
     }
 }
