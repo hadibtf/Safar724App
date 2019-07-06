@@ -17,15 +17,15 @@ import io.reactivex.Flowable;
 
 @Dao
 public interface NotificationDataDao {
-    @Insert
-    void insertNotificationData(NotificationData notificationData);
-
     @Query("Select * from NotificationData")
     Flowable<List<NotificationData>> getNotificationDataList();
 
-//    @Update
-//    void updateNotificationData(NotificationData notificationData);
-//
-//    @Delete
-//    void deleteNotificationData(NotificationData notificationData);
+    @Insert
+    void insertNotificationData(NotificationData notificationData);
+
+    @Update
+    void updateNotificationData(NotificationData notificationData);
+
+    @Delete
+    void deleteNotificationData(NotificationData notificationData);
 }

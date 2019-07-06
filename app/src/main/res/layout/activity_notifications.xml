@@ -4,32 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NotificationsActivity"
-    android:orientation="vertical">
-    
+    android:orientation="vertical"
+    tools:context=".activities.NotificationsActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <androidx.appcompat.widget.Toolbar
-            android:background="@color/colorPrimary"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:onClick="toolbarBackBt"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:id="@+id/back_bt"
                     android:layout_width="50dp"
                     android:layout_height="35dp"
                     android:layout_marginRight="18dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="toolbarBackBt"
                     android:src="@drawable/ic_arrow_forward"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -63,14 +66,9 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notifications_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notifications_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
