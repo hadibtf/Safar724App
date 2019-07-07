@@ -1,26 +1,24 @@
 package com.safar724test.app.activities;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
+import com.safar724test.app.models.NotificationData;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -29,8 +27,8 @@ import io.reactivex.schedulers.Schedulers;
 public class NotificationsActivity extends AppCompatActivity implements MyAdapter.OnNotifItemClickListener {
     private MyAdapter adapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private List<NotificationData> notificationDataList = new ArrayList<>();
     private NotificationDataDao dao;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +48,27 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(data -> {
-                            if (data == null || data.size() == 0) {
-                                Toast.makeText(this, "Empty data", Toast.LENGTH_SHORT).show();
-                            } else {
-                                adapter.setData(data);
-                            }
-                        }
+                                    if (data == null || data.size() == 0) {
+                                        Toast.makeText(this, "Empty data", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        notificationDataList = data;
+                                        adapter.setData(notificationDataList);
+                                    }
+                                }
                         )
         );
-
     }
 
     @Override
     public void onItemClicked(int position) {
-        Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+        NotificationData data = notificationDataList.get(position);
+        NotificationData updatedData = new NotificationData("سلام هه هه هه", data.iconUrl, data.url);
+        dao.updateNotificationData(updatedData);
     }
 
     public void toolbarBackBt(View view) {
         onBackPressed();
     }
-
 
     protected void onDestroy() {
         super.onDestroy();

@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    android:gravity="right"
     android:orientation="vertical">
 
     <TextView
+        android:gravity="right"
         android:id="@+id/collapsed_notif_title"
         style="@style/TextAppearance.Compat.Notification.Title"
         android:text="hello world"

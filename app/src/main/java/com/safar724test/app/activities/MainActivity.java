@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (url.contains("faq")) {
-                    startActivity(new Intent(getApplicationContext(), ConnectionErrorActivity.class).putExtra("header", requestHeaders));
-                }
+//                if (url.contains("faq")) {
+//                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class).putExtra("header", requestHeaders));
+//                }
                 super.onPageFinished(view, url);
             }
         });

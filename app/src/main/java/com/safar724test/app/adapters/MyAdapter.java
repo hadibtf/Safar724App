@@ -30,12 +30,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         void onItemClicked(int position);
     }
 
-    public MyAdapter(
-            Context context,
-//            List<NotificationData> dataList,
-            OnNotifItemClickListener onNotifItemClickListener) {
+    public MyAdapter(Context context, OnNotifItemClickListener onNotifItemClickListener) {
         this.context = context;
-//        this.dataList = dataList;
         this.onNotifItemClickListener = onNotifItemClickListener;
     }
 
@@ -46,12 +42,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return new MyAdapter.ViewHolder(view, onNotifItemClickListener);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
-        setAnimation(holder.itemView, position);
+        setAnimation(holder.item, position);
         holder.notifText.setText(dataList.get(position).description);
-        Picasso.get().load(dataList.get(position).iconUrl).into(holder.notifImage);
+        Picasso.get().load(dataList.get(position).iconUrl).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
     }
 
     @Override
@@ -87,15 +82,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void updateDataList(List<NotificationData> notificationDataList) {
-        dataList.clear();
-        dataList = notificationDataList;
-    }
-
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
             animation.setDuration(1000);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
