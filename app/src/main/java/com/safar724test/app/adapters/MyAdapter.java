@@ -1,6 +1,7 @@
 package com.safar724test.app.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.safar724test.app.R;
@@ -23,6 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
     private List<NotificationData> dataList;
     private int lastPosition = -1;
+    private final String TAG = "ADAPTER";
 
     private OnNotifItemClickListener onNotifItemClickListener;
 
@@ -45,8 +48,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
         setAnimation(holder.item, position);
-        holder.notifText.setText(dataList.get(position).description);
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notifText,TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        holder.notifText.setText(dataList.get(position).description + "\n" + "\n" + dataList.get(position).date);
         Picasso.get().load(dataList.get(position).iconUrl).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
+        Log.d(TAG, dataList.get(position).iconUrl);
     }
 
     @Override

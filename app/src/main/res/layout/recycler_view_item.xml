@@ -23,11 +23,12 @@
             android:layout_height="75dp">
 
             <TextView
+                android:text="۱۲۱"
                 android:id="@+id/notif_text"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".75"
-                android:fontFamily="@font/iransans_medium"
+                android:fontFamily="@font/iran_sans_mobile"
                 android:gravity="right" />
 
             <View
@@ -36,10 +37,13 @@
                 android:layout_weight=".05" />
 
             <ImageView
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
                 android:id="@+id/notif_img"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight=".2" />
+                android:layout_weight=".2"
+                android:contentDescription="TODO" />
 
         </LinearLayout>
 

@@ -44,6 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationData data = new NotificationData(
                 notif.get("description"),
                 notif.get("notif_icon"),
+                notif.get("date"),
                 notif.get("url")
         );
         dao.insertNotificationData(data);

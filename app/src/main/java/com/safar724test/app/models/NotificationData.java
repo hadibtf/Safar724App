@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
-
 @Entity
 public class NotificationData {
     @PrimaryKey(autoGenerate = true)
@@ -14,15 +12,15 @@ public class NotificationData {
     final public String description;
     @ColumnInfo(name = "iconUrl")
     final public String iconUrl;
+    @ColumnInfo(name = "date")
+    final public String date;
     @ColumnInfo(name = "url")
     final public String url;
-//    @ColumnInfo(name = "expirationDate")
-//    final public String expirationDate = null;
 
-
-    public NotificationData(String description, String iconUrl, String url) {
+    public NotificationData(String description, String iconUrl, String date, String url) {
         this.description = description;
         this.iconUrl = iconUrl;
+        this.date = date;
         this.url = url;
     }
 }
