@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.safar724test.app.R;
 import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.tools.JalaliTimeStamp;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,8 +49,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
         setAnimation(holder.item, position);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notifText,TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        holder.notifText.setText(dataList.get(position).description + "\n" + "\n" + dataList.get(position).date);
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(dataList.get(position).date.substring(0, 10).trim());
+        holder.notificationTitle.setText(dataList.get(position).description);
+        holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
         Picasso.get().load(dataList.get(position).iconUrl).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
         Log.d(TAG, dataList.get(position).iconUrl);
     }
@@ -62,14 +66,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView notifImage;
-        TextView notifText;
+        TextView notificationTitle;
+        TextView notificationDateStamp;
         LinearLayout item;
         OnNotifItemClickListener onNotifItemClickListener;
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
-            notifText = itemView.findViewById(R.id.notif_text);
+            notificationTitle = itemView.findViewById(R.id.notification_item_title);
+            notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             item = itemView.findViewById(R.id.item);
             this.onNotifItemClickListener = onNotifItemClickListener;
             item.setOnClickListener(this);

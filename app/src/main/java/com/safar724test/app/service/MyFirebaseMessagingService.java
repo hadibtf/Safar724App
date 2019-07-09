@@ -87,7 +87,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(small)
-                .setCustomBigContentView(big);
+                .setCustomBigContentView(big)
+                .setSmallIcon(R.mipmap.ic_launcher);
         notificationManagerCompat.notify(1, builder.build());
     }
 }
