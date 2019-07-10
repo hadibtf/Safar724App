@@ -41,7 +41,7 @@ public class App extends Application {
 //            String description = getString(R.string.channel_description);
 //            int importance = NotificationManager.IMPORTANCE_DEFAULT;
 //            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
+//            channel.setTitle(description);
 //            // Register the channel with the system; you can't change the importance
 //            // or other notification behaviors after this
 //            NotificationManager notificationManager = getSystemService(NotificationManager.class);

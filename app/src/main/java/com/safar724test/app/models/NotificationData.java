@@ -7,20 +7,63 @@ import androidx.room.PrimaryKey;
 @Entity
 public class NotificationData {
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    @ColumnInfo(name = "description")
-    final public String description;
+    private int id;
+    @ColumnInfo(name = "title")
+    private String title;
     @ColumnInfo(name = "iconUrl")
-    final public String iconUrl;
+    private String iconUrl;
     @ColumnInfo(name = "date")
-    final public String date;
+    private String date;
     @ColumnInfo(name = "url")
-    final public String url;
+    private String url;
+    @ColumnInfo(name = "isRead")
+    private boolean isRead = false;
 
-    public NotificationData(String description, String iconUrl, String date, String url) {
-        this.description = description;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public boolean isRead() {
+        return isRead;
     }
 }

@@ -1,6 +1,7 @@
 package com.safar724test.app.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,14 +49,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
+        NotificationData currentData = dataList.get(position);
+//        Log.d(TAG, "onBindViewHolder: " + currentData.getIconUrl());
+//        Log.d(TAG, "onBindViewHolder: " + currentData.getUrl());
+//        Log.d(TAG, "onBindViewHolder: " + currentData.getTitle());
         setAnimation(holder.item, position);
+        Typeface bold = Typeface.createFromAsset(context.getAssets(),"fonts/iran_sans_mobile_medium.ttf");
+        Typeface light = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(dataList.get(position).date.substring(0, 10).trim());
-        holder.notificationTitle.setText(dataList.get(position).description);
+        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
+        if (dataList.get(position).isRead()){
+            Log.d(TAG, "onBindViewHolderp: " + position);
+            holder.notificationTitle.setTypeface(light);
+            holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
+        }
+        holder.notificationTitle.setText(currentData.getTitle());
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
-        Picasso.get().load(dataList.get(position).iconUrl).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
-        Log.d(TAG, dataList.get(position).iconUrl);
+        Picasso.get().load(currentData.getIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
     }
 
     @Override

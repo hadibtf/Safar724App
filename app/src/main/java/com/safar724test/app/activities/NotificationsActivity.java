@@ -1,14 +1,16 @@
 package com.safar724test.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +20,6 @@ import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotificationData;
-import com.safar724test.app.tools.JalaliTimeStamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +39,15 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
         FirebaseMessaging.getInstance().subscribeToTopic("safar724").addOnCompleteListener(task -> Toast.makeText(getApplicationContext(), "topic created!", Toast.LENGTH_LONG).show());
-        TextView badgeTv = findViewById(R.id.unread_notification_badge_tv);
-        badgeTv.setText("۵۵");
-        String date = "2019-07-08";
-        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(date);
-
-        Log.d("TAG", "onCreate: " + jalaliTimeStamp.getDateInPersian());
         dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         RecyclerView notificationsRecyclerView = findViewById(R.id.notifications_recycler_view);
         notificationsRecyclerView.setHasFixedSize(true);
-        notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        notificationsRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MyAdapter(this, this);
         notificationsRecyclerView.setAdapter(adapter);
         compositeDisposable.add(dao.getNotificationDataList()
@@ -62,12 +60,29 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                 notificationsRecyclerView.setVisibility(View.GONE);
 
                             } else {
+                                Log.d("TAG", "TEST: " + data.size() );
+                                notificationsRecyclerView.smoothScrollToPosition(data.size());
+
+                                adapter.setData(data);
                                 if (textView.getVisibility() == View.VISIBLE) {
                                     textView.setVisibility(View.GONE);
                                     notificationsRecyclerView.setVisibility(View.VISIBLE);
                                 }
+                                int unreadMsgQuantity = 0;
+                                TextView badgeTv = findViewById(R.id.unread_notification_badge_tv);
+                                RelativeLayout unreadNotificationBadge = findViewById(R.id.unread_notification_badge);
+                                for (int i = 0; i < data.size(); i++) {
+                                    if (!data.get(i).isRead()) {
+                                        unreadMsgQuantity++;
+                                    }
+                                }
+                                if (unreadMsgQuantity <= 0) {
+                                    unreadNotificationBadge.setVisibility(View.INVISIBLE);
+                                    return;
+                                }
+                                unreadNotificationBadge.setVisibility(View.VISIBLE);
+                                badgeTv.setText(faToEn(String.valueOf(unreadMsgQuantity)));
                                 notificationDataList = data;
-                                adapter.setData(notificationDataList);
                             }
                         }
                 )
@@ -76,8 +91,13 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
 
     @Override
     public void onItemClicked(int position) {
+        Log.d("TAG", "TEST p: " + position );
+//        position++;
         NotificationData data = notificationDataList.get(position);
-        dao.deleteNotificationData(data);
+//        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", data.getUrl()));
+        data.setIsRead(true);
+        dao.updateNotificationData(data);
+//        dao.deleteNotificationData(data);
     }
 
     public void toolbarBackBt(View view) {
@@ -87,6 +107,20 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+    }
+
+    private String faToEn(String num) {
+        return num
+                .replace("0", "۰")
+                .replace("1", "۱")
+                .replace("2", "۲")
+                .replace("3", "۳")
+                .replace("4", "۴")
+                .replace("5", "۵")
+                .replace("6", "۶")
+                .replace("7", "۷")
+                .replace("8", "۸")
+                .replace("9", "۹");
     }
 
 

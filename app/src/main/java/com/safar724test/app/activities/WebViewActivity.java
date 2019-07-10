@@ -29,6 +29,12 @@ public class WebViewActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView(WebView webView) {
+        Intent intent = getIntent();
+        String intendedUrl = intent.getStringExtra("intendedUrl");
+        if (intendedUrl != null) {
+            webView.loadUrl(intendedUrl);
+            return;
+        }
         webView.loadUrl("https://mob.safar724.com");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);

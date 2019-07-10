@@ -1,6 +1,5 @@
 package com.safar724test.app.service;
 
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 
 import android.app.NotificationChannel;
@@ -19,12 +18,7 @@ import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotificationData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Map;
-
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private final String TAG = "FMService";
@@ -36,33 +30,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        System.out.println("====" + message);
+        Log.d(TAG, message.toString());
 
         NotificationDataDao dao = NotificationDataDatabase.getInstance(getApplicationContext()).notificationDataDao();
         Map<String, String> notif = message.getData();
-//        JSONObject object = new JSONObject(notif);
-        NotificationData data = new NotificationData(
-                notif.get("description"),
-                notif.get("notif_icon"),
-                notif.get("date"),
-                notif.get("url")
-        );
+        NotificationData data = new NotificationData();
+        data.setUrl(notif.get("url"));
+        data.setDate(notif.get("date"));
+        data.setIconUrl(notif.get("notif_icon"));
+        data.setTitle(notif.get("description"));
         dao.insertNotificationData(data);
-
-//        try {
-//            JSONArray array = new JSONArray(object.getString("notif_data"));
-//            for (int i = 0; i <= array.length(); i++) {
-//                NotificationData data = new NotificationData(
-//                        notif.get("description"),
-//                        notif.get("notif_icon"),
-//                        notif.get("url")
-//                );
-//                dao.insertNotificationData(data);
-//            }
-//        } catch (JSONException e) {
-//            Log.d(TAG, e.toString());
-//            e.printStackTrace();
-//        }
         sendNotification(notif);
         super.onMessageReceived(message);
     }
