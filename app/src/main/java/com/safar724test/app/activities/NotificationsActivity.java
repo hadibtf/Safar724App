@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -91,13 +90,10 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
 
     @Override
     public void onItemClicked(int position) {
-        Log.d("TAG", "TEST p: " + position );
-//        position++;
         NotificationData data = notificationDataList.get(position);
-//        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", data.getUrl()));
+        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", data.getUrl()));
         data.setIsRead(true);
         dao.updateNotificationData(data);
-//        dao.deleteNotificationData(data);
     }
 
     public void toolbarBackBt(View view) {

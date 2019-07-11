@@ -32,22 +32,10 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/CHANNEL_ID" />
 
-        <!--<activity-->
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
-            <!--android:name=".activities.MainActivity"-->
-            <!--android:windowSoftInputMode="adjustPan">-->
-
-
-
-        <!--</activity>-->
-
-        <activity android:name=".activities.ConnectionErrorActivity">
-
-
-
-        </activity>
-
-        <activity android:name=".activities.NotificationsActivity">
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activities.WebViewActivity"
+            android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +46,19 @@
 
         </activity>
 
-        <activity android:name=".activities.WebViewActivity">
+        <activity android:name=".activities.ConnectionErrorActivity">
+
+
+
+        </activity>
+
+        <activity android:name=".activities.NotificationsActivity">
+
+
+
+        </activity>
+
+        <activity android:name=".activities.WebViewActivity2">
 
 
 

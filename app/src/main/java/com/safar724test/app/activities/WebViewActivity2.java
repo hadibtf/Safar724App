@@ -4,34 +4,31 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.safar724test.app.R;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 
-public class WebViewActivity extends AppCompatActivity {
-    private WebView webView;
-    //    private EditText urlEditText;
+public class WebViewActivity2 extends AppCompatActivity {
     private boolean clickedOnce = false;
-    private boolean firstLoadingDone = false;
+    WebView webView;
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        webView = new WebView(this);
+        setContentView(webView);
+        initWebView(webView);
+    }
 
-        init();
-//        webView.loadUrl("file:///android_asset/test.htm");
+    @SuppressLint("SetJavaScriptEnabled")
+    private void initWebView(WebView webView) {
         Intent intent = getIntent();
         String intendedUrl = intent.getStringExtra("intendedUrl");
         if (intendedUrl != null) {
@@ -39,32 +36,9 @@ public class WebViewActivity extends AppCompatActivity {
             return;
         }
         webView.loadUrl("https://mob.safar724.com");
-//        webView.loadUrl("https://mob.safar724.com");
-    }
-
-//    public void goToUrl(View view) {
-//        webView.loadUrl(urlEditText.getText().toString());
-//    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private void init() {
-        //Set Activity Layout
-        setContentView(R.layout.activity_main);
-
-        //Initialize Views
-        webView = findViewById(R.id.web_view);
-
-//        urlEditText = findViewById(R.id.urlEditText);
-
-        //Set the webView required settings
         webView.getSettings().setJavaScriptEnabled(true);
-
-        //Loads the default Cache Policy
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-
         webView.getSettings().setGeolocationEnabled(true);
-
-        //Allows WebView to go back
         webView.canGoBack();
 
         //Customize WebViewClient
@@ -90,38 +64,12 @@ public class WebViewActivity extends AppCompatActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (!firstLoadingDone) {
-                    firstLoadingDone = true;
-                    View loadingView = findViewById(R.id.loading_view);
-                    Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-                    loadingView.startAnimation(anim);
-                    anim.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            loadingView.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    loadingView.setVisibility(View.INVISIBLE);
-                }
 //                if (url.contains("faq")) {
 //                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class).putExtra("header", requestHeaders));
 //                }
                 super.onPageFinished(view, url);
             }
         });
-//        urlEditText.setOnFocusChangeListener((v, hasFocus) -> {
-//            if (hasFocus) urlEditText.setText(getResources().getString(R.string.https));
-//        });
     }
 
     @Override

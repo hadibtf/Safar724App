@@ -30,14 +30,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <TextView
-                    android:textColor="@color/notReadNotificationTextColor"
+                    tools:textColor="@color/notReadNotificationTextColor"
                     android:autoSizeTextType="uniform"
                     tools:text="تایتل اینجا نمایش داده میشود!"
                     android:id="@+id/notification_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight=".5"
-                    android:fontFamily="@font/iran_sans_mobile"
+                    tools:fontFamily="@font/iran_sans_mobile"
                     android:gravity="top|right" />
                 <View
                     android:layout_weight=".15"

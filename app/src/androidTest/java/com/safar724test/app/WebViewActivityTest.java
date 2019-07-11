@@ -1,17 +1,17 @@
 package com.safar724test.app;
 
-import com.safar724test.app.activities.MainActivity;
+import com.safar724test.app.activities.WebViewActivity;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MainActivityTest {
+public class WebViewActivityTest {
 
     @Test
     public void onCreate() {
-        MainActivity mainActivity = new MainActivity();
-        assertNotNull(mainActivity);
+        WebViewActivity webViewActivity = new WebViewActivity();
+        assertNotNull(webViewActivity);
     }
 
     @Test
