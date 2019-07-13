@@ -1,42 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-    <View
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loading_view"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent=".8"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie_anim/loading_anim.json"
+            app:lottie_loop="true" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!--<EditText-->
-        <!--android:hint="@string/url"-->
-        <!--android:id="@+id/urlEditText"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:inputType="textUri"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/web_view"-->
-        <!--app:layout_constraintHeight_percent=".08"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintWidth_percent=".75"-->
-        <!--tools:ignore="Autofill" />-->
+    <!--android:hint="@string/url"-->
+    <!--android:id="@+id/urlEditText"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:inputType="textUri"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/web_view"-->
+    <!--app:layout_constraintHeight_percent=".08"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintWidth_percent=".75"-->
+    <!--tools:ignore="Autofill" />-->
 
     <!--<Button-->
-        <!--android:onClick="goToUrl"-->
-        <!--android:text="@string/go"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:layout_constraintWidth_percent=".25"-->
-        <!--app:layout_constraintHeight_percent=".08"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--android:onClick="goToUrl"-->
+    <!--android:text="@string/go"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--app:layout_constraintWidth_percent=".25"-->
+    <!--app:layout_constraintHeight_percent=".08"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 
 </RelativeLayout>

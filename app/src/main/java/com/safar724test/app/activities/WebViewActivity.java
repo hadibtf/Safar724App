@@ -2,6 +2,8 @@ package com.safar724test.app.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -38,7 +40,7 @@ public class WebViewActivity extends AppCompatActivity {
             webView.loadUrl(intendedUrl);
             return;
         }
-        webView.loadUrl("https://mob.safar724.com");
+        webView.loadUrl("https://safar724.com");
 //        webView.loadUrl("https://mob.safar724.com");
     }
 
@@ -48,6 +50,12 @@ public class WebViewActivity extends AppCompatActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void init() {
+
+        if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+
+
         //Set Activity Layout
         setContentView(R.layout.activity_main);
 

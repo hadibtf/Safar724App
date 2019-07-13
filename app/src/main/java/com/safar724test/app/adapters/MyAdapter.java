@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.safar724test.app.R;
 import com.safar724test.app.models.NotificationData;
 import com.safar724test.app.tools.JalaliTimeStamp;
+import com.safar724test.app.tools.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -49,23 +50,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
+        Utils utils = new Utils(context);
         NotificationData currentData = dataList.get(position);
 
         setAnimation(holder.item, position);
-        Typeface bold = Typeface.createFromAsset(context.getAssets(),"fonts/iran_sans_mobile_medium.ttf");
-        Typeface light = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
-        if (currentData.isRead()){
+        if (currentData.isRead()) {
             Log.d(TAG, "onBindViewHolderp: " + position);
-            holder.notificationTitle.setTypeface(light);
+            utils.setFont(holder.notificationTitle, utils.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
-        }else if (!currentData.isRead()){
-            holder.notificationTitle.setTypeface(bold);
+        } else if (!currentData.isRead()) {
+            utils.setFont(holder.notificationTitle, utils.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
         holder.notificationTitle.setText(currentData.getTitle());
+        utils.setFont(holder.notificationDateStamp, utils.LIGHT);
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
         Picasso.get().load(currentData.getIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
     }

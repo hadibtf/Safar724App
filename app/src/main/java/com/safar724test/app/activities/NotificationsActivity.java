@@ -19,6 +19,7 @@ import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,38 +38,55 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-        FirebaseMessaging.getInstance().subscribeToTopic("safar724").addOnCompleteListener(task -> Toast.makeText(getApplicationContext(), "topic created!", Toast.LENGTH_LONG).show());
+
+        Utils utils = new Utils(this);
+
+        TextView actionBarTextView = findViewById(R.id.action_bar_text_view);
+        TextView emptyRecyclerViewTextView = findViewById(R.id.empty_recycler_view_text_view);
+        TextView badgeTextView = findViewById(R.id.unread_notification_badge_tv);
+
+        utils.setFont(actionBarTextView, 3);
+        utils.setFont(emptyRecyclerViewTextView, 3);
+        utils.setFont(badgeTextView, 3);
+
+
         dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         RecyclerView notificationsRecyclerView = findViewById(R.id.notifications_recycler_view);
+
         notificationsRecyclerView.setHasFixedSize(true);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
+
         notificationsRecyclerView.setLayoutManager(linearLayoutManager);
+
         adapter = new MyAdapter(this, this);
+
         notificationsRecyclerView.setAdapter(adapter);
+
         compositeDisposable.add(dao.getNotificationDataList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {
-                            TextView textView = findViewById(R.id.empty_recycler_view_text_view);
-                            textView.setVisibility(View.VISIBLE);
+                            emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
                             if (data == null || data.size() == 0) {
                                 notificationsRecyclerView.setVisibility(View.GONE);
 
                             } else {
-                                Log.d("TAG", "TEST: " + data.size() );
+                                Log.d("TAG", "TEST: " + data.size());
                                 notificationsRecyclerView.smoothScrollToPosition(data.size());
-
                                 adapter.setData(data);
-                                if (textView.getVisibility() == View.VISIBLE) {
-                                    textView.setVisibility(View.GONE);
+
+                                if (emptyRecyclerViewTextView.getVisibility() == View.VISIBLE) {
+                                    emptyRecyclerViewTextView.setVisibility(View.GONE);
                                     notificationsRecyclerView.setVisibility(View.VISIBLE);
                                 }
                                 int unreadMsgQuantity = 0;
-                                TextView badgeTv = findViewById(R.id.unread_notification_badge_tv);
                                 RelativeLayout unreadNotificationBadge = findViewById(R.id.unread_notification_badge);
                                 for (int i = 0; i < data.size(); i++) {
                                     if (!data.get(i).isRead()) {
@@ -80,7 +98,7 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                     return;
                                 }
                                 unreadNotificationBadge.setVisibility(View.VISIBLE);
-                                badgeTv.setText(faToEn(String.valueOf(unreadMsgQuantity)));
+                                badgeTextView.setText(utils.faToEn(String.valueOf(unreadMsgQuantity)));
                                 notificationDataList = data;
                             }
                         }
@@ -104,20 +122,5 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         super.onDestroy();
         compositeDisposable.dispose();
     }
-
-    private String faToEn(String num) {
-        return num
-                .replace("0", "۰")
-                .replace("1", "۱")
-                .replace("2", "۲")
-                .replace("3", "۳")
-                .replace("4", "۴")
-                .replace("5", "۵")
-                .replace("6", "۶")
-                .replace("7", "۷")
-                .replace("8", "۸")
-                .replace("9", "۹");
-    }
-
 
 }

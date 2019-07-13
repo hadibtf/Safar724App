@@ -40,12 +40,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/action_bar_text_view"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
-                    android:fontFamily="@font/iran_sans_mobile"
                     android:gravity="center"
                     android:text="اعلانها"
                     android:textColor="@android:color/white"
@@ -93,8 +92,6 @@
                                 android:layout_weight="1.1"
                                 android:orientation="vertical">
 
-
-
                                 <RelativeLayout
                                     android:id="@+id/unread_notification_badge"
                                     android:visibility="invisible"
@@ -111,7 +108,6 @@
                                         android:id="@+id/unread_notification_badge_tv"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:fontFamily="@font/iran_sans_mobile"
                                         android:gravity="center|top"
                                         tools:text="۵"
                                         android:textColor="@android:color/white"
@@ -124,12 +120,9 @@
                                     android:layout_weight=".9" />
 
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </LinearLayout>
                 </RelativeLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -139,7 +132,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/iran_sans_mobile"
         android:gravity="center|top"
         android:text="@string/no_existing_notification"
         android:visibility="gone" />
