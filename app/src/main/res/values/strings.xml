@@ -8,7 +8,8 @@
     <string name="https">https://</string>
     <string name="fcm_token">dV6U47OEDwk:APA91bHqFlLQqEqkg53Aa63PF4SieZFOmo_xnPVOHfpq7Tc0yE68WmULUtmbBBG6QyewsV1CtQdA3Qq2rE2VaBuKFdITvcCM2ruvr3MRhzymcQu5iFXYZ0OP6mYRRUHOL418UNcK7Nex</string>
     <string name="CHANNEL_ID">MY_CHANNEL_ID</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum ex porttitor, accumsan purus eget, mattis nulla. Ut id augue.</string>
+    <string name="lorem_en">Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing elit.consectetur adipiscing elit.consectetur adipiscing elit. Pellentesque elementum ex porttitor, accumsan purus eget, mattis nulla. Ut id augue.</string>
+    <string name="lorem_fa">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه مجله در ستون و سطر آنچنان که لازم است و برای شرایط فعلی.</string>
     <string name="imgSrc">https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9809_zMXfJDonX4-Q9jQx7ssdoiEEYCuXpgr8sp0agmovzl2v</string>
     <string name="no_existing_notification">هیچ اعلانی برای نمایش وجود ندارد.</string>
 </resources>

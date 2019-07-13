@@ -30,17 +30,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
-        Log.d(TAG, message.toString());
+        Map<String, String> notif = message.getData();
+
+        NotificationData data = new NotificationData();
+        data.setTitle(notif.get("title"));
+        data.setDescription(notif.get("description"));
+        data.setIconUrl(notif.get("notif_icon"));
+        data.setDate(notif.get("date"));
+        data.setUrl(notif.get("url"));
 
         NotificationDataDao dao = NotificationDataDatabase.getInstance(getApplicationContext()).notificationDataDao();
-        Map<String, String> notif = message.getData();
-        NotificationData data = new NotificationData();
-        data.setUrl(notif.get("url"));
-        data.setDate(notif.get("date"));
-        data.setIconUrl(notif.get("notif_icon"));
-        data.setTitle(notif.get("description"));
         dao.insertNotificationData(data);
+
         sendNotification(notif);
+
         super.onMessageReceived(message);
     }
 

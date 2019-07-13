@@ -10,6 +10,8 @@ public class NotificationData {
     private int id;
     @ColumnInfo(name = "title")
     private String title;
+    @ColumnInfo(name = "description")
+    private String description;
     @ColumnInfo(name = "iconUrl")
     private String iconUrl;
     @ColumnInfo(name = "date")
@@ -25,6 +27,10 @@ public class NotificationData {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setIconUrl(String iconUrl) {
@@ -49,6 +55,10 @@ public class NotificationData {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getIconUrl() {

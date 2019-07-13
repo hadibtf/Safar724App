@@ -58,12 +58,6 @@
 
         </activity>
 
-        <activity android:name=".activities.WebViewActivity2">
-
-
-
-        </activity>
-
     </application>
 
 </manifest>

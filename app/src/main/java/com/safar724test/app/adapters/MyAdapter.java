@@ -65,6 +65,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             utils.setFont(holder.notificationTitle, utils.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
+        utils.setFont(holder.notificationDescription,utils.REGULAR);
+        holder.notificationDescription.setText(currentData.getDescription());
         holder.notificationTitle.setText(currentData.getTitle());
         utils.setFont(holder.notificationDateStamp, utils.LIGHT);
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
@@ -80,6 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView notifImage;
         TextView notificationTitle;
+        TextView notificationDescription;
         TextView notificationDateStamp;
         LinearLayout item;
         OnNotifItemClickListener onNotifItemClickListener;
@@ -88,6 +91,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
+            notificationDescription = itemView.findViewById(R.id.notification_item_description);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             item = itemView.findViewById(R.id.item);
             this.onNotifItemClickListener = onNotifItemClickListener;
