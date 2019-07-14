@@ -109,7 +109,6 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     @Override
     public void onItemClicked(int position) {
         NotificationData data = notificationDataList.get(position);
-        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", data.getUrl()));
         data.setIsRead(true);
         dao.updateNotificationData(data);
     }

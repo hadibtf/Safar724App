@@ -9,7 +9,6 @@ import android.content.Context;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.firebase.messaging.RemoteMessage;
