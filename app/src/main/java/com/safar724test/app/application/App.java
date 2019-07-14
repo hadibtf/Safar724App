@@ -14,8 +14,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String fcmToken = sharedPref.getString("fcmToken", "");
+
         if (fcmToken.equals("")) {
             FirebaseMessaging.getInstance().subscribeToTopic("safar724").addOnCompleteListener(task ->
                     Toast.makeText(getApplicationContext(), "topic created!", Toast.LENGTH_LONG).show());
