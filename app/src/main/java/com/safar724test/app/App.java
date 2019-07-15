@@ -1,4 +1,4 @@
-package com.safar724test.app.application;
+package com.safar724test.app;
 
 import android.app.Application;
 import android.content.SharedPreferences;

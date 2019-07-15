@@ -2,6 +2,7 @@ package com.safar724test.app.tools;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class Utils {
@@ -17,7 +18,7 @@ public class Utils {
         this.context = context;
     }
 
-    public void setFont(TextView textView, int font) {
+    public void setTextViewFont(TextView textView, int font) {
         Typeface typeface;
         switch (font) {
             case 0:
@@ -39,6 +40,32 @@ public class Utils {
             case 4:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_bold.ttf");
                 textView.setTypeface(typeface);
+                break;
+        }
+    }
+
+    public void setButtonFont(Button button, int font) {
+        Typeface typeface;
+        switch (font) {
+            case 0:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
+                button.setTypeface(typeface);
+                break;
+            case 1:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_light.ttf");
+                button.setTypeface(typeface);
+                break;
+            case 2:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_medium.ttf");
+                button.setTypeface(typeface);
+                break;
+            case 3:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile.ttf");
+                button.setTypeface(typeface);
+                break;
+            case 4:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_bold.ttf");
+                button.setTypeface(typeface);
                 break;
         }
     }

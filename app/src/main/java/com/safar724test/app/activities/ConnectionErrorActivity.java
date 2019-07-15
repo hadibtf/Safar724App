@@ -1,15 +1,21 @@
 package com.safar724test.app.activities;
 
 import android.os.Bundle;
-import androidx.core.widget.TextViewCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.safar724test.app.R;
+import com.safar724test.app.tools.Utils;
 
 public class ConnectionErrorActivity extends AppCompatActivity {
-    private TextView errorTextView;
+
+    private TextView errorMessage;
+    private Button retry;
+    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +25,15 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     }
 
     private void init() {
-        errorTextView = findViewById(R.id.err_text_view);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(errorTextView, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        utils = new Utils(this);
+        errorMessage = findViewById(R.id.error_message);
+        retry = findViewById(R.id.retry);
+        utils.setTextViewFont(errorMessage,utils.REGULAR);
+        utils.setButtonFont(retry, utils.REGULAR);
     }
 
-    public void goBack(View view) {
-        finish();
+
+    public void retry(View view) {
+        Toast.makeText(this, "Retry", Toast.LENGTH_SHORT).show();
     }
 }

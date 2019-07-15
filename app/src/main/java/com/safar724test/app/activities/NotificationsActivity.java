@@ -6,23 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotificationData;
 import com.safar724test.app.tools.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -31,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
 public class NotificationsActivity extends AppCompatActivity implements MyAdapter.OnNotifItemClickListener {
     private MyAdapter adapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private List<NotificationData> notificationDataList = new ArrayList<>();
     private NotificationDataDao dao;
 
     @Override
@@ -45,9 +39,9 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         TextView emptyRecyclerViewTextView = findViewById(R.id.empty_recycler_view_text_view);
         TextView badgeTextView = findViewById(R.id.unread_notification_badge_tv);
 
-        utils.setFont(actionBarTextView, 3);
-        utils.setFont(emptyRecyclerViewTextView, 3);
-        utils.setFont(badgeTextView, 3);
+        utils.setTextViewFont(actionBarTextView, 3);
+        utils.setTextViewFont(emptyRecyclerViewTextView, 3);
+        utils.setTextViewFont(badgeTextView, 3);
 
 
         dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
@@ -99,7 +93,6 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                 }
                                 unreadNotificationBadge.setVisibility(View.VISIBLE);
                                 badgeTextView.setText(utils.faToEn(String.valueOf(unreadMsgQuantity)));
-                                notificationDataList = data;
                             }
                         }
                 )
@@ -107,10 +100,10 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     }
 
     @Override
-    public void onItemClicked(int position) {
-        NotificationData data = notificationDataList.get(position);
-        data.setIsRead(true);
-        dao.updateNotificationData(data);
+    public void onItemClicked(NotificationData notificationData) {
+        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", notificationData.getUrl()));
+        notificationData.setIsRead(true);
+        dao.updateNotificationData(notificationData);
     }
 
     public void toolbarBackBt(View view) {

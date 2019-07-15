@@ -14,6 +14,8 @@ public class NotificationData {
     private String description;
     @ColumnInfo(name = "iconUrl")
     private String iconUrl;
+    @ColumnInfo(name = "typeIconUrl")
+    private String typeIconUrl;
     @ColumnInfo(name = "date")
     private String date;
     @ColumnInfo(name = "url")
@@ -35,6 +37,10 @@ public class NotificationData {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public void setTypeIconUrl(String typeIconUrl) {
+        this.typeIconUrl = typeIconUrl;
     }
 
     public void setDate(String date) {
@@ -75,5 +81,9 @@ public class NotificationData {
 
     public boolean isRead() {
         return isRead;
+    }
+
+    public String getTypeIconUrl() {
+        return typeIconUrl;
     }
 }

@@ -1,7 +1,6 @@
 package com.safar724test.app.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private OnNotifItemClickListener onNotifItemClickListener;
 
     public interface OnNotifItemClickListener {
-        void onItemClicked(int position);
+        void onItemClicked(NotificationData notificationData);
     }
 
     public MyAdapter(Context context, OnNotifItemClickListener onNotifItemClickListener) {
@@ -59,18 +58,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
         if (currentData.isRead()) {
             Log.d(TAG, "onBindViewHolderp: " + position);
-            utils.setFont(holder.notificationTitle, utils.LIGHT);
+            utils.setTextViewFont(holder.notificationTitle, utils.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
         } else if (!currentData.isRead()) {
-            utils.setFont(holder.notificationTitle, utils.REGULAR);
+            utils.setTextViewFont(holder.notificationTitle, utils.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
-        utils.setFont(holder.notificationDescription,utils.REGULAR);
+        utils.setTextViewFont(holder.notificationDescription, utils.REGULAR);
         holder.notificationDescription.setText(currentData.getDescription());
         holder.notificationTitle.setText(currentData.getTitle());
-        utils.setFont(holder.notificationDateStamp, utils.LIGHT);
+        utils.setTextViewFont(holder.notificationDateStamp, utils.LIGHT);
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
         Picasso.get().load(currentData.getIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
+        Picasso.get().load(currentData.getTypeIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifTypeImage);
     }
 
     @Override
@@ -80,19 +80,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView notifImage;
-        TextView notificationTitle;
-        TextView notificationDescription;
-        TextView notificationDateStamp;
         LinearLayout item;
+        ImageView notifImage;
+        ImageView notifTypeImage;
+        TextView notificationTitle;
+        TextView notificationDateStamp;
+        TextView notificationDescription;
         OnNotifItemClickListener onNotifItemClickListener;
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
+            notifTypeImage = itemView.findViewById(R.id.notification_item_type_icon);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
-            notificationDescription = itemView.findViewById(R.id.notification_item_description);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
+            notificationDescription = itemView.findViewById(R.id.notification_item_description);
             item = itemView.findViewById(R.id.item);
             this.onNotifItemClickListener = onNotifItemClickListener;
             item.setOnClickListener(this);
@@ -100,7 +102,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            onNotifItemClickListener.onItemClicked(getAdapterPosition());
+            onNotifItemClickListener.onItemClicked(dataList.get(getAdapterPosition()));
         }
     }
 

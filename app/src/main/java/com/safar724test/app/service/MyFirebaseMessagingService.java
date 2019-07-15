@@ -35,9 +35,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         data.setTitle(notif.get("title"));
         data.setDescription(notif.get("description"));
         data.setIconUrl(notif.get("notif_icon"));
+        data.setTypeIconUrl(notif.get("type_icon"));
         data.setDate(notif.get("date"));
         data.setUrl(notif.get("url"));
-
         NotificationDataDao dao = NotificationDataDatabase.getInstance(getApplicationContext()).notificationDataDao();
         dao.insertNotificationData(data);
 
