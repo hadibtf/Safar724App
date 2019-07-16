@@ -38,8 +38,8 @@ public class WebViewActivity extends AppCompatActivity {
             webView.loadUrl(intendedUrl);
             return;
         }
-        webView.loadUrl("https://safar724.com");
-//        webView.loadUrl("https://mob.safar724.com");
+//        webView.loadUrl("https://safar724.com");
+        webView.loadUrl("https://mob.safar724.com");
     }
 
 //    public void goToUrl(View view) {

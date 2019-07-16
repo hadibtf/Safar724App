@@ -14,7 +14,7 @@ import com.safar724test.app.tools.Utils;
 public class ConnectionErrorActivity extends AppCompatActivity {
 
     private TextView errorMessage;
-    private Button retry;
+    private TextView retry;
     private Utils utils;
 
     @Override
@@ -29,7 +29,7 @@ public class ConnectionErrorActivity extends AppCompatActivity {
         errorMessage = findViewById(R.id.error_message);
         retry = findViewById(R.id.retry);
         utils.setTextViewFont(errorMessage,utils.REGULAR);
-        utils.setButtonFont(retry, utils.REGULAR);
+        utils.setTextViewFont(retry, utils.REGULAR);
     }
 
 
