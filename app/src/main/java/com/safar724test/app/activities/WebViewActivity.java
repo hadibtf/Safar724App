@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.safar724test.app.R;
@@ -40,6 +41,13 @@ public class WebViewActivity extends AppCompatActivity {
         }
 //        webView.loadUrl("https://safar724.com");
         webView.loadUrl("https://mob.safar724.com");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
+                (dialog, which) -> {
+                    dialog.dismiss();
+                    finish();
+                }).show();
+
     }
 
 //    public void goToUrl(View view) {

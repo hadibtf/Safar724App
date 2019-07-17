@@ -2,10 +2,10 @@ package com.safar724test.app.activities;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.safar724test.app.R;
@@ -15,7 +15,6 @@ public class ConnectionErrorActivity extends AppCompatActivity {
 
     private TextView errorMessage;
     private TextView retry;
-    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +24,22 @@ public class ConnectionErrorActivity extends AppCompatActivity {
     }
 
     private void init() {
-        utils = new Utils(this);
+        final Utils utils = new Utils(this);
         errorMessage = findViewById(R.id.error_message);
         retry = findViewById(R.id.retry);
-        utils.setTextViewFont(errorMessage,utils.REGULAR);
+        utils.setTextViewFont(errorMessage, utils.REGULAR);
         utils.setTextViewFont(retry, utils.REGULAR);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
+                (dialog, which) -> {
+                    dialog.dismiss();
+//                    finish();
+                }).show();
     }
 
 
     public void retry(View view) {
+        recreate();
         Toast.makeText(this, "Retry", Toast.LENGTH_SHORT).show();
     }
 }

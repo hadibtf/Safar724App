@@ -12,4 +12,7 @@
     <string name="lorem_fa">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه مجله در ستون و سطر آنچنان که لازم است و برای شرایط فعلی.</string>
     <string name="imgSrc">https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9809_zMXfJDonX4-Q9jQx7ssdoiEEYCuXpgr8sp0agmovzl2v</string>
     <string name="no_existing_notification">هیچ اعلانی برای نمایش وجود ندارد.</string>
+    <string name="retry">تلاش مجدد</string>
+    <string name="no_wifi_image">No connection image</string>
+    <string name="safar724_logo">Safar724 Logo</string>
 </resources>

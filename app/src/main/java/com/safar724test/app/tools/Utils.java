@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Utils {
-    public final Context context;
+    private final Context context;
     public final int ULTRA_LIGHT = 0;
     public final int LIGHT = 1;
     public final int MEDIUM = 2;

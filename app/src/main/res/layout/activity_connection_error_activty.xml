@@ -14,11 +14,11 @@
         android:layout_height="350dp"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:contentDescription="@string/safar724_logo" />
 
         <View
             android:layout_width="match_parent"
@@ -37,9 +37,9 @@
         <ImageView
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:src="@drawable/no_wifi" />
+            android:src="@drawable/no_wifi"
+            android:contentDescription="@string/no_wifi_image" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -98,7 +98,7 @@
                 android:background="@color/no_color"
                 android:gravity="center"
                 android:onClick="retry"
-                android:text="تلاش مجدد"
+                android:text="@string/retry"
                 android:textColor="@color/colorPrimary" />
 
             <View
@@ -107,6 +107,7 @@
                 android:layout_weight="1.33" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
