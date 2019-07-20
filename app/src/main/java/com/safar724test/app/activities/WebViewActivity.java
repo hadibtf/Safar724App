@@ -41,12 +41,12 @@ public class WebViewActivity extends AppCompatActivity {
         }
 //        webView.loadUrl("https://safar724.com");
         webView.loadUrl("https://mob.safar724.com");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
-                (dialog, which) -> {
-                    dialog.dismiss();
-                    finish();
-                }).show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
+//                (dialog, which) -> {
+//                    dialog.dismiss();
+//                    finish();
+//                }).show();
 
     }
 

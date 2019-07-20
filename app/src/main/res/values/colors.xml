@@ -7,7 +7,9 @@
     <!--Mycolors-->
     <color name="no_color">#00000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="whiteFilter">#A6FFFFFF</color>
+    <color name="whiteFilterLite">#26FFFFFF</color>
+    <color name="whiteFilterMedium">#80FFFFFF</color>
+    <color name="whiteFilterIntense">#A6FFFFFF</color>
     <color name="grey">#E6E6E6</color>
     <color name="readNotificationTextColor">#5A5A5A</color>
     <color name="notReadNotificationTextColor">#383838</color>

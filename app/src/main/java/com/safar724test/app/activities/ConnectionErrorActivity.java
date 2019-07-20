@@ -1,7 +1,9 @@
 package com.safar724test.app.activities;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,8 +15,7 @@ import com.safar724test.app.tools.Utils;
 
 public class ConnectionErrorActivity extends AppCompatActivity {
 
-    private TextView errorMessage;
-    private TextView retry;
+    private boolean t = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +26,8 @@ public class ConnectionErrorActivity extends AppCompatActivity {
 
     private void init() {
         final Utils utils = new Utils(this);
-        errorMessage = findViewById(R.id.error_message);
-        retry = findViewById(R.id.retry);
+        TextView errorMessage = findViewById(R.id.error_message);
+        TextView retry = findViewById(R.id.retry);
         utils.setTextViewFont(errorMessage, utils.REGULAR);
         utils.setTextViewFont(retry, utils.REGULAR);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -37,9 +38,20 @@ public class ConnectionErrorActivity extends AppCompatActivity {
                 }).show();
     }
 
-
     public void retry(View view) {
         recreate();
         Toast.makeText(this, "Retry", Toast.LENGTH_SHORT).show();
+    }
+
+    public void test(View view) {
+        RelativeLayout rl = findViewById(R.id.linearLayout2);
+        if (t) {
+            rl.setGravity(Gravity.CENTER);
+            t = false;
+        } else {
+            rl.setGravity(Gravity.RIGHT);
+            t = true;
+        }
+        Toast.makeText(this, "Clicked", Toast.LENGTH_LONG).show();
     }
 }
