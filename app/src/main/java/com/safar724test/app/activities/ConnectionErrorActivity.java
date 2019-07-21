@@ -43,15 +43,4 @@ public class ConnectionErrorActivity extends AppCompatActivity {
         Toast.makeText(this, "Retry", Toast.LENGTH_SHORT).show();
     }
 
-    public void test(View view) {
-        RelativeLayout rl = findViewById(R.id.linearLayout2);
-        if (t) {
-            rl.setGravity(Gravity.CENTER);
-            t = false;
-        } else {
-            rl.setGravity(Gravity.RIGHT);
-            t = true;
-        }
-        Toast.makeText(this, "Clicked", Toast.LENGTH_LONG).show();
-    }
 }

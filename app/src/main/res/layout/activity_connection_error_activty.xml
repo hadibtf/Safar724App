@@ -31,39 +31,20 @@
             android:background="@color/whiteFilterLite" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="180dp"
-        android:gravity="top|right"
-        android:onClick="test"
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/no_internet"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie_anim/bus_anim.json"
-            app:lottie_loop="true" />
-
-        <ImageView
-
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/no_internet" />
-    </RelativeLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/error_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center|right"
+        android:gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="4dp"
@@ -74,7 +55,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65" />
-
 
     <TextView
         android:id="@+id/retry"

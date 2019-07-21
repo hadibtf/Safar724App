@@ -1,19 +1,18 @@
 package com.safar724test.app.activities;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.safar724test.app.R;
@@ -39,8 +38,9 @@ public class WebViewActivity extends AppCompatActivity {
             webView.loadUrl(intendedUrl);
             return;
         }
+//        HashMap<String, String> headerExtras = new HashMap<>();
 //        webView.loadUrl("https://safar724.com");
-        webView.loadUrl("https://mob.safar724.com");
+        webView.loadUrl("https://google.com/");
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
 //                (dialog, which) -> {
@@ -62,77 +62,40 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
 
-        //Set Activity Layout
         setContentView(R.layout.activity_main);
 
-        //Initialize Views
         webView = findViewById(R.id.web_view);
 
 //        urlEditText = findViewById(R.id.urlEditText);
 
-        //Set the webView required settings
         webView.getSettings().setJavaScriptEnabled(true);
 
-        //Loads the default Cache Policy
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
         webView.getSettings().setGeolocationEnabled(true);
 
-        //Allows WebView to go back
         webView.canGoBack();
 
-        //Customize WebViewClient
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        webView.setWebViewClient(
+                new WebViewClient() {
+                    @Override
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        HashMap<String, String> headerExtras = new HashMap<>();
+                        headerExtras.put("ANDROID_HEADER_EXTRA", "HELLO_WORLD");
+                        view.loadUrl(request.getUrl().toString(), headerExtras);
+                        return true;
+                    }
 
-                HashMap<String, String> headerExtras = new HashMap<>();
-                headerExtras.put("ANDROID_HEADER_EXTRA", "HELLO_WORLD");
-                view.loadUrl(url, headerExtras);
-                //When a new url is loaded, checks if the url matches the the preferred url.
-                if (url.contains("faq")) {
-                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class));
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        HashMap<String, String> headerExtras = new HashMap<>();
+                        headerExtras.put("ANDROID_HEADER_EXTRA", "HELLO_WORLD");
+                        view.loadUrl(url, headerExtras);
+                        return true;
+                    }
                 }
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-
-//            @Override
-//            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-//                requestHeaders = request.getRequestHeaders().toString();
-//                return super.shouldInterceptRequest(view, request);
-//            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (!firstLoadingDone) {
-                    firstLoadingDone = true;
-                    View loadingView = findViewById(R.id.loading_view);
-                    Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
-                    loadingView.startAnimation(anim);
-                    anim.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            loadingView.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    loadingView.setVisibility(View.INVISIBLE);
-                }
-//                if (url.contains("faq")) {
-//                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class).putExtra("header", requestHeaders));
-//                }
-                super.onPageFinished(view, url);
-            }
-        });
+        );
 //        urlEditText.setOnFocusChangeListener((v, hasFocus) -> {
 //            if (hasFocus) urlEditText.setText(getResources().getString(R.string.https));
 //        });
