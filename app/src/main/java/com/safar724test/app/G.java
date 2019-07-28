@@ -1,6 +1,5 @@
 package com.safar724test.app;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -10,12 +9,11 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class App extends Application {
-
+public class G extends Application {
+    private String notifToken;
     @Override
     public void onCreate() {
         super.onCreate();
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String fcmToken = sharedPref.getString("fcmToken", "");
 
@@ -24,13 +22,17 @@ public class App extends Application {
                     Toast.makeText(getApplicationContext(), "topic created!", Toast.LENGTH_LONG).show());
             FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
                 if (!task.isSuccessful()) {
-                    Log.d("App", "Failed to get FCM token");
+                    Log.d("G", "Failed to get FCM token");
                     return;
                 }
-                String token = task.getResult().getToken();
-                System.out.println("----token: " + token);
-                sharedPref.edit().putString("fcmToken", token).apply();
+                notifToken = task.getResult().getToken();
+                System.out.println("----token: " + notifToken);
+                sharedPref.edit().putString("fcmToken", notifToken).apply();
             });
         }
+    }
+
+    public String getNotifToken() {
+        return notifToken;
     }
 }

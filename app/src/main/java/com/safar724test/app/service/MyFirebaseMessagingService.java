@@ -30,7 +30,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         Map<String, String> notif = message.getData();
-
         NotificationData data = new NotificationData();
         data.setTitle(notif.get("title"));
         data.setDescription(notif.get("description"));

@@ -3,9 +3,11 @@ package com.safar724test.app.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,25 +20,23 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
+import com.safar724test.app.G;
 import com.safar724test.app.R;
 
 import java.util.HashMap;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends Activity {
     private WebView webView;
-    //    private EditText urlEditText;
     private boolean clickedOnce = false;
     private boolean firstLoadingDone = false;
-
+    private G g;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         init();
         Intent intent = getIntent();
         String intendedUrl = intent.getStringExtra("intendedUrl");
@@ -46,12 +46,11 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
         webView.loadUrl("https://google.com/");
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void init() {
-
+        g = (G) getApplication();
         if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
@@ -63,9 +62,14 @@ public class WebViewActivity extends AppCompatActivity {
         webView.getSettings().setGeolocationEnabled(true);
         webView.canGoBack();
         WebViewClient webViewClient = new WebViewClient() {
+
             @Override
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String url = request.getUrl().toString();
+                if (url.contains("faq")) {
+                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class));
+                }
                 view.loadUrl(request.getUrl().toString(), getHeaders());
                 return true;
             }
@@ -101,7 +105,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     private HashMap<String, String> getHeaders() {
         HashMap<String, String> headerExtras = new HashMap<>();
-        String phone;
+
         TelephonyManager telephonyManager = (TelephonyManager) this.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -111,9 +115,23 @@ public class WebViewActivity extends AppCompatActivity {
                         1);
             }
         }
-        phone = telephonyManager.getLine1Number();
-        if (phone != null) headerExtras.put("PHONE", phone);
-        headerExtras.put("AGENT", "Android");
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String versionCode = String.valueOf(packageInfo.versionCode);
+        String versionName = packageInfo.versionName;
+        String phone = telephonyManager.getLine1Number();
+        String fcmToken = g.getNotifToken();
+
+        headerExtras.put("X-APP-TOKEN", fcmToken);
+        if (versionCode != null) headerExtras.put("X-APP-VERSION-CODE", versionCode);
+        if (versionName != null) headerExtras.put("X-APP-VERSION-NAME", versionName);
+        if (phone != null) headerExtras.put("X-APP-USER-PHONE", phone);
+
         return headerExtras;
     }
 }
