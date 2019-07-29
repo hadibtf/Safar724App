@@ -1,10 +1,10 @@
 package com.safar724test.app.models;
 
-class NotifActions {
-    private final int type;
-    private final String data;
+public class NotifActions {
+    public final String type;
+    public final String data;
 
-    NotifActions(int type, String data) {
+    public NotifActions(String type, String data) {
         this.type = type;
         this.data = data;
     }

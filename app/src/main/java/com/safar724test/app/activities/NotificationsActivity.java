@@ -16,8 +16,11 @@ import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
 import com.safar724test.app.interfaces.NotificationDataDao;
-import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.models.NotifActions;
+import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.Utils;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -100,10 +103,14 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     }
 
     @Override
-    public void onItemClicked(NotificationData notificationData) {
-        startActivity(new Intent(this, WebViewActivity.class).putExtra("intendedUrl", notificationData.getUrl()));
-        notificationData.setIsRead(true);
-        dao.updateNotificationData(notificationData);
+    public void onItemClicked(NotificationModel notificationModel) {
+        List<NotifActions> notifActions = notificationModel.getNotifActions();
+        NotifActions notifAction = notifActions.get(0);
+        startActivity(
+                new Intent(this, WebViewActivity.class)
+                        .putExtra("intendedUrl", notifAction.data));
+        notificationModel.setIsRead(true);
+        dao.updateNotificationData(notificationModel);
     }
 
     public void toolbarBackBt(View view) {

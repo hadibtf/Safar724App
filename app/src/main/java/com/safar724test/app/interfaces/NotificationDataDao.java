@@ -2,30 +2,28 @@ package com.safar724test.app.interfaces;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
-import androidx.room.Index;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.models.NotificationModel;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 
 
-
 @Dao
 public interface NotificationDataDao {
-    @Query("Select * from NotificationData")
-    Flowable<List<NotificationData>> getNotificationDataList();
+    @Query("Select * from NotificationModel")
+    Flowable<List<NotificationModel>> getNotificationModelList();
 
     @Insert
-    void insertNotificationData(NotificationData notificationData);
+    void insertNotificationModel(NotificationModel notificationModel);
 
     @Update
-    void updateNotificationData(NotificationData notificationData);
+    void updateNotificationModel(NotificationModel notificationModel);
 
     @Delete
-    void deleteNotificationData(NotificationData notificationData);
+    void deleteNotificationData(NotificationModel notificationModel);
 }

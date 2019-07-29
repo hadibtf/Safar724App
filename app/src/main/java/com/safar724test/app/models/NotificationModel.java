@@ -19,19 +19,21 @@ public class NotificationModel {
     @ColumnInfo(name = "icon")
     private String icon;
     @ColumnInfo(name = "actions")
-    private NotifActions notifActions;
+    private List<NotifActions> notifActions;
     @ColumnInfo(name = "date")
     private String date;
     @ColumnInfo(name = "expires")
     private String expires;
     @ColumnInfo(name = "tags")
     private List<NotifTag> tags;
-    @ColumnInfo(name = "conditions")
-    private List<Condition> conditions;
+    @ColumnInfo(name = "notifConditions")
+    private List<NotifCondition> notifConditions;
     @ColumnInfo(name = "ver")
     private String ver;
     @ColumnInfo(name = "type")
     private String type;
+    @ColumnInfo(name = "isRead")
+    private boolean isRead;
 
     public int getId() {
         return id;
@@ -73,11 +75,11 @@ public class NotificationModel {
         this.icon = icon;
     }
 
-    public NotifActions getNotifActions() {
+    public List<NotifActions> getNotifActions() {
         return notifActions;
     }
 
-    public void setNotifActions(NotifActions notifActions) {
+    public void setNotifActions(List<NotifActions> notifActions) {
         this.notifActions = notifActions;
     }
 
@@ -105,12 +107,12 @@ public class NotificationModel {
         this.tags = tags;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
+    public List<NotifCondition> getNotifConditions() {
+        return notifConditions;
     }
 
-    public void setConditions(List<Condition> conditions) {
-        this.conditions = conditions;
+    public void setNotifConditions(List<NotifCondition> notifConditions) {
+        this.notifConditions = notifConditions;
     }
 
     public String getVer() {
@@ -129,6 +131,11 @@ public class NotificationModel {
         this.type = type;
     }
 
+    public boolean isRead() {
+        return isRead;
+    }
 
-
+    public void setIsRead(boolean read) {
+        isRead = read;
+    }
 }

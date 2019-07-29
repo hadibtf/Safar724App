@@ -16,7 +16,7 @@ import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.safar724test.app.R;
-import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.JalaliTimeStamp;
 import com.safar724test.app.tools.Utils;
 import com.squareup.picasso.Picasso;
@@ -25,14 +25,14 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
-    private List<NotificationData> dataList;
+    private List<NotificationModel> dataList;
     private int lastPosition = -1;
     private final String TAG = "ADAPTER";
 
     private OnNotifItemClickListener onNotifItemClickListener;
 
     public interface OnNotifItemClickListener {
-        void onItemClicked(NotificationData notificationData);
+        void onItemClicked(NotificationModel notificationData);
     }
 
     public MyAdapter(Context context, OnNotifItemClickListener onNotifItemClickListener) {
@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
         Utils utils = new Utils(context);
-        NotificationData currentData = dataList.get(position);
+        NotificationModel currentData = dataList.get(position);
 
         setAnimation(holder.item, position);
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
@@ -69,8 +69,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.notificationTitle.setText(currentData.getTitle());
         utils.setTextViewFont(holder.notificationDateStamp, utils.LIGHT);
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
-        Picasso.get().load(currentData.getIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
-        Picasso.get().load(currentData.getTypeIconUrl()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifTypeImage);
+        Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
+        //later we will use chips tags but currently we are testing in with the type.
+        holder.notifType.setText(currentData.getType());
     }
 
     @Override
@@ -82,7 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout item;
         ImageView notifImage;
-        ImageView notifTypeImage;
+        TextView notifType;
         TextView notificationTitle;
         TextView notificationDateStamp;
         TextView notificationDescription;
@@ -91,7 +92,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
-            notifTypeImage = itemView.findViewById(R.id.notification_item_type_icon);
+            notifType = itemView.findViewById(R.id.notification_item_type);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             notificationDescription = itemView.findViewById(R.id.notification_item_description);
@@ -106,8 +107,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public void addItem(NotificationData notificationData, int index) {
-        dataList.add(index, notificationData);
+    public void addItem(NotificationModel notificationModel, int index) {
+        dataList.add(index, notificationModel);
         notifyItemInserted(index);
         notifyDataSetChanged();
     }
@@ -122,7 +123,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public void setData(List<NotificationData> dataList) {
+    public void setData(List<NotificationModel> dataList) {
         this.dataList = dataList;
         notifyDataSetChanged();
     }
