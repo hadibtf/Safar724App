@@ -3,6 +3,7 @@ package com.safar724test.app.service;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
@@ -75,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             List<NotifCondition> notifConditions = new ArrayList<>();
             for (int i = 0; i < conditionsJsonArray.length(); i++) {
                 JSONObject json = conditionsJsonArray.getJSONObject(i);
-                String type = json.getString("appversion");
+                String type = json.getString("type");
                 String lessThan = json.getString("lessThan");
                 String to = json.getString("to");
                 String moreThan = json.getString("moreThan");
@@ -86,12 +87,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             model.setVer(data.getString("ver"));
             model.setType(data.getString("type"));
+            Log.d(TAG, "onBindViewHolder: *************S " + data.getString("type"));
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d(TAG, "onBindViewHolder: *************S " + e);
+
         }
 
         NotificationDataDao dao = NotificationDataDatabase.getInstance(getApplicationContext()).notificationDataDao();
-        dao.insertNotificationData(model);
+        dao.insertNotificationModel(model);
         sendNotification(message.getData());
         super.onMessageReceived(message);
     }

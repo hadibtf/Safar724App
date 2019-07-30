@@ -7,9 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.safar724test.app.interfaces.NotificationDataDao;
-import com.safar724test.app.models.NotificationData;
+import com.safar724test.app.models.NotificationModel;
 
-@Database(entities = NotificationData.class, exportSchema = false, version = 6)
+@Database(entities = NotificationModel.class, exportSchema = false, version = 7)
 public abstract class NotificationDataDatabase extends RoomDatabase {
     private static final String DB_NAME = "notification_db";
     private static NotificationDataDatabase instance;

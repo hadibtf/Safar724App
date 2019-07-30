@@ -1,6 +1,12 @@
 package com.safar724test.app.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.safar724test.app.R;
+import com.safar724test.app.models.NotifTag;
 import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.JalaliTimeStamp;
 import com.safar724test.app.tools.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -71,7 +83,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
         Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
         //later we will use chips tags but currently we are testing in with the type.
-        holder.notifType.setText(currentData.getType());
+        Log.d(TAG, "onBindViewHolder: *************A " + currentData.getTags().get(0).title);
+        Chip chip = new Chip(context);
+
+        for (int i = 0; i < currentData.getTags().size(); i++) {
+            ImageView im = new ImageView(context);
+            NotifTag tag = currentData.getTags().get(i);
+            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.color)));
+            Uri uri = Uri.parse("android.resource://com.safar724test.app/drawable/chip.png");
+
+            try {
+                InputStream stream = context.getContentResolver().openInputStream(uri);
+                chip.setChipIcon(context.getResources().getDrawable(R.drawable.chip));
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            chip.setText(tag.title);
+            holder.tags.addView(chip);
+        }
     }
 
     @Override
@@ -87,12 +117,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView notificationTitle;
         TextView notificationDateStamp;
         TextView notificationDescription;
+        ChipGroup tags;
         OnNotifItemClickListener onNotifItemClickListener;
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
-            notifType = itemView.findViewById(R.id.notification_item_type);
+            tags = itemView.findViewById(R.id.notif_tags);
+//            notifType = itemView.findViewById(R.id.notification_item_type);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             notificationDescription = itemView.findViewById(R.id.notification_item_description);

@@ -20,8 +20,6 @@ import com.safar724test.app.models.NotifActions;
 import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.Utils;
 
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -66,7 +64,7 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
 
         notificationsRecyclerView.setAdapter(adapter);
 
-        compositeDisposable.add(dao.getNotificationDataList()
+        compositeDisposable.add(dao.getNotificationModelList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(data -> {
@@ -104,13 +102,12 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
 
     @Override
     public void onItemClicked(NotificationModel notificationModel) {
-        List<NotifActions> notifActions = notificationModel.getNotifActions();
-        NotifActions notifAction = notifActions.get(0);
+        NotifActions notifAction = notificationModel.getNotifActions().get(0);
         startActivity(
                 new Intent(this, WebViewActivity.class)
                         .putExtra("intendedUrl", notifAction.data));
         notificationModel.setIsRead(true);
-        dao.updateNotificationData(notificationModel);
+        dao.updateNotificationModel(notificationModel);
     }
 
     public void toolbarBackBt(View view) {

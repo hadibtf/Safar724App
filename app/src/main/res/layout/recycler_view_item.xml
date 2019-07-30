@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
         android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="4dp"
         android:clickable="true"
         android:focusable="true"
@@ -22,59 +22,74 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="125dp">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="0.75"
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="0.75"
+                android:orientation="vertical">
+
                 <TextView
-                    tools:textColor="@color/notReadNotificationTextColor"
-                    android:autoSizeTextType="uniform"
-                    tools:text="تایتل اینجا نمایش داده میشود!"
                     android:id="@+id/notification_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight=".2"
-                    android:gravity="top|right" />
+                    android:autoSizeTextType="uniform"
+                    android:gravity="top|right"
+                    tools:text="تایتل اینجا نمایش داده میشود!"
+                    tools:textColor="@color/notReadNotificationTextColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight=".30">
                     <TextView
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:text="خبری"
-                        android:id="@+id/notification_item_type"
-                        android:layout_weight=".15"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent" />
+                        android:id="@+id/notification_item_date_stamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".1"
+                        android:autoSizeTextType="uniform"
+                        android:gravity="left"
+                        tools:text="۱۲/۱/۱" />
+
                     <TextView
-                        android:gravity="right"
                         android:id="@+id/notification_item_description"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".5"
                         android:ellipsize="end"
+                        android:gravity="right"
                         android:maxLines="2"
                         android:textSize="12sp"
-                        tools:text="@string/lorem_fa"
-                        android:layout_weight=".85"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"/>
+                        tools:text="@string/lorem_fa" />
 
                 </LinearLayout>
-                <TextView
-                    android:autoSizeTextType="uniform"
-                    tools:text="۱۲/۱/۱"
-                    android:id="@+id/notification_item_date_stamp"
-                    android:layout_width="match_parent"
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/notif_tags"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_weight=".1"
-                    android:gravity="left" />
-                <View
-                    android:layout_weight=".05"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"/>
+                    android:layout_weight=".5"
+                    android:gravity="top|left"
+                    app:chipCornerRadius="20dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:text="hi"
+                        app:chipIcon="@drawable/no_wifi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <com.google.android.material.chip.Chip
+                        android:text="hi"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.chip.ChipGroup>
+
             </LinearLayout>
 
             <View
@@ -82,20 +97,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight=".05" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_gravity="center"
-                    android:id="@+id/notif_img"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".2"
-                    android:contentDescription="NotificationItemIcon" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/notif_img"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".2"
+                android:contentDescription="NotificationItemIcon" />
 
         </LinearLayout>
 
         <View
-            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="2dp"
             android:background="@color/grey" />
     </LinearLayout>
 </LinearLayout>

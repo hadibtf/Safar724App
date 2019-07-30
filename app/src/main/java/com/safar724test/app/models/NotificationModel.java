@@ -3,6 +3,7 @@ package com.safar724test.app.models;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.util.List;
 
@@ -18,15 +19,15 @@ public class NotificationModel {
     private String description;
     @ColumnInfo(name = "icon")
     private String icon;
-    @ColumnInfo(name = "actions")
+    @TypeConverters(NotifActions.class)
     private List<NotifActions> notifActions;
     @ColumnInfo(name = "date")
     private String date;
     @ColumnInfo(name = "expires")
     private String expires;
-    @ColumnInfo(name = "tags")
+    @TypeConverters(NotifTag.class)
     private List<NotifTag> tags;
-    @ColumnInfo(name = "notifConditions")
+    @TypeConverters(NotifCondition.class)
     private List<NotifCondition> notifConditions;
     @ColumnInfo(name = "ver")
     private String ver;
