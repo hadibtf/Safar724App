@@ -20,6 +20,8 @@ import com.safar724test.app.models.NotifActions;
 import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.Utils;
 
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -76,7 +78,6 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                 Log.d("TAG", "TEST: " + data.size());
                                 notificationsRecyclerView.smoothScrollToPosition(data.size());
                                 adapter.setData(data);
-
                                 if (emptyRecyclerViewTextView.getVisibility() == View.VISIBLE) {
                                     emptyRecyclerViewTextView.setVisibility(View.GONE);
                                     notificationsRecyclerView.setVisibility(View.VISIBLE);

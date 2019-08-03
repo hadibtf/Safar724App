@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp">
+            android:layout_height="135dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -72,23 +72,7 @@
                     android:layout_height="0dp"
                     android:layout_weight=".5"
                     android:gravity="top|left"
-                    app:chipCornerRadius="20dp">
-
-                    <com.google.android.material.chip.Chip
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:text="hi"
-                        app:chipIcon="@drawable/no_wifi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <com.google.android.material.chip.Chip
-                        android:text="hi"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        style="@style/Widget.MaterialComponents.Chip.Action"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.chip.ChipGroup>
+                    app:chipCornerRadius="20dp"/>
 
             </LinearLayout>
 

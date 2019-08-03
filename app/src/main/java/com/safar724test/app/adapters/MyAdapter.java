@@ -2,12 +2,10 @@ package com.safar724test.app.adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +27,16 @@ import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.JalaliTimeStamp;
 import com.safar724test.app.tools.Utils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
-    private List<NotificationModel> dataList;
+    private List<NotificationModel> dataList = new ArrayList<>();
     private int lastPosition = -1;
     private final String TAG = "ADAPTER";
 
@@ -63,13 +62,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, final int position) {
         Utils utils = new Utils(context);
         NotificationModel currentData = dataList.get(position);
-
         setAnimation(holder.item, position);
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
         if (currentData.isRead()) {
-            Log.d(TAG, "onBindViewHolderp: " + position);
             utils.setTextViewFont(holder.notificationTitle, utils.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
         } else if (!currentData.isRead()) {
@@ -82,25 +79,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         utils.setTextViewFont(holder.notificationDateStamp, utils.LIGHT);
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
         Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
-        //later we will use chips tags but currently we are testing in with the type.
-        Log.d(TAG, "onBindViewHolder: *************A " + currentData.getTags().get(0).title);
-        Chip chip = new Chip(context);
-
+        ChipGroup chipGroup = holder.tags;
         for (int i = 0; i < currentData.getTags().size(); i++) {
-            ImageView im = new ImageView(context);
+            final Chip chip = new Chip(context);
             NotifTag tag = currentData.getTags().get(i);
-            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.color)));
-            Uri uri = Uri.parse("android.resource://com.safar724test.app/drawable/chip.png");
 
-            try {
-                InputStream stream = context.getContentResolver().openInputStream(uri);
-                chip.setChipIcon(context.getResources().getDrawable(R.drawable.chip));
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Timber.d("Tags%s ", tag.title);
             chip.setText(tag.title);
-            holder.tags.addView(chip);
+            chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.color)));
+
+            Picasso.get().load(tag.icon).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    Drawable drawImage = new BitmapDrawable(context.getResources(), bitmap);
+                    chip.setChipIcon(drawImage);
+                }
+
+                @Override
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+            chipGroup.addView(chip);
         }
     }
 
@@ -117,7 +122,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView notificationTitle;
         TextView notificationDateStamp;
         TextView notificationDescription;
-        ChipGroup tags;
+        private final ChipGroup tags;
         OnNotifItemClickListener onNotifItemClickListener;
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
@@ -157,6 +162,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public void setData(List<NotificationModel> dataList) {
         this.dataList = dataList;
+
         notifyDataSetChanged();
     }
 }
