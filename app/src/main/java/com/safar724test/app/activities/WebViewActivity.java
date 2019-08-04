@@ -28,22 +28,15 @@ public class WebViewActivity extends Activity {
     private WebView webView;
     private boolean clickedOnce = false;
     private boolean firstLoadingDone = false;
-    private G g;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-        g = (G) getApplication();
+        G g = (G) getApplication();
 
-        if (!g.isNetworkAvailable()) init();
+        if (g.isNetworkAvailable()) init();
 
-        Intent intent = getIntent();
-        String intendedUrl = intent.getStringExtra("intendedUrl");
-        if (intendedUrl != null) {
-            webView.loadUrl(intendedUrl);
-            return;
-        }
 
     }
 
@@ -52,13 +45,17 @@ public class WebViewActivity extends Activity {
         if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
+        Intent intent = getIntent();
+        String intendedUrl = intent.getStringExtra("intendedUrl");
 
         webView = findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setGeolocationEnabled(true);
         webView.canGoBack();
-        webView.loadUrl("https://mob.safar724.com/");
+        if (intendedUrl != null) webView.loadUrl(intendedUrl);
+        else webView.loadUrl("https://mob.safar724.com/");
+
         WebViewClient webViewClient = new WebViewClient() {
 
             @Override
@@ -74,6 +71,9 @@ public class WebViewActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.contains("faq")) {
+                    startActivity(new Intent(getApplicationContext(), NotificationsActivity.class));
+                }
                 view.loadUrl(url, getHeaders());
                 return true;
             }
@@ -101,19 +101,9 @@ public class WebViewActivity extends Activity {
         handler.postDelayed(() -> clickedOnce = false, 2000);
     }
 
-    private HashMap<String, String> getHeaders()
-    {
+    private HashMap<String, String> getHeaders() {
         HashMap<String, String> headerExtras = new HashMap<>();
 
-//        TelephonyManager telephonyManager = (TelephonyManager) this.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(
-//                        WebViewActivity.this,
-//                        new String[]{Manifest.permission.READ_PHONE_STATE},
-//                        1);
-//            }
-//        }
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -121,15 +111,14 @@ public class WebViewActivity extends Activity {
             e.printStackTrace();
         }
 
-        String versionCode = String.valueOf(packageInfo.versionCode);
+        String versionCode = String.valueOf(packageInfo != null ? packageInfo.versionCode : 0);
         String versionName = packageInfo.versionName;
-//        String phone = telephonyManager.getLine1Number();
+        G g = (G) getApplication();
         String fcmToken = g.getNotifToken();
 
         headerExtras.put("X-APP-TOKEN", fcmToken);
-        if (versionCode != null) headerExtras.put("X-APP-VERSION-CODE", versionCode);
-        if (versionName != null) headerExtras.put("X-APP-VERSION-NAME", versionName);
-//        if (phone != null) headerExtras.put("X-APP-USER-PHONE", phone);
+        headerExtras.put("X-APP-VERSION-CODE", versionCode);
+        headerExtras.put("X-APP-VERSION-NAME", versionName);
 
         return headerExtras;
     }

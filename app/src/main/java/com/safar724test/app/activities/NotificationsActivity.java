@@ -2,7 +2,6 @@ package com.safar724test.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,16 +19,16 @@ import com.safar724test.app.models.NotifActions;
 import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.Utils;
 
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class NotificationsActivity extends AppCompatActivity implements MyAdapter.OnNotifItemClickListener {
     private MyAdapter adapter;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private NotificationDataDao dao;
+    private boolean firstStream = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +74,17 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                 notificationsRecyclerView.setVisibility(View.GONE);
 
                             } else {
-                                Log.d("TAG", "TEST: " + data.size());
-                                notificationsRecyclerView.smoothScrollToPosition(data.size());
-                                adapter.setData(data);
+                                if (firstStream) {
+                                    firstStream = false;
+                                    adapter.setData(data);
+                                    notificationsRecyclerView.smoothScrollToPosition(data.size());
+
+                                } else {
+                                    int lastItemIndex = data.size() - 1;
+                                    adapter.addItem(data.get(lastItemIndex), lastItemIndex);
+                                    notificationsRecyclerView.smoothScrollToPosition(data.size());
+                                }
+
                                 if (emptyRecyclerViewTextView.getVisibility() == View.VISIBLE) {
                                     emptyRecyclerViewTextView.setVisibility(View.GONE);
                                     notificationsRecyclerView.setVisibility(View.VISIBLE);
@@ -104,9 +111,10 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     @Override
     public void onItemClicked(NotificationModel notificationModel) {
         NotifActions notifAction = notificationModel.getNotifActions().get(0);
-        startActivity(
-                new Intent(this, WebViewActivity.class)
-                        .putExtra("intendedUrl", notifAction.data));
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra("intendedUrl", notifAction.data);
+        Timber.d("INTENT%s", notifAction.data);
+        startActivity(intent);
         notificationModel.setIsRead(true);
         dao.updateNotificationModel(notificationModel);
     }

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,13 +65,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Utils utils = new Utils(context);
         NotificationModel currentData = dataList.get(position);
         setAnimation(holder.item, position);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
+
         if (currentData.isRead()) {
             utils.setTextViewFont(holder.notificationTitle, utils.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
-        } else if (!currentData.isRead()) {
+        }
+        else if (!currentData.isRead()) {
             utils.setTextViewFont(holder.notificationTitle, utils.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
@@ -77,17 +78,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.notificationDescription.setText(currentData.getDescription());
         holder.notificationTitle.setText(currentData.getTitle());
         utils.setTextViewFont(holder.notificationDateStamp, utils.LIGHT);
-        holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
-        Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
-        ChipGroup chipGroup = holder.tags;
-        for (int i = 0; i < currentData.getTags().size(); i++) {
-            final Chip chip = new Chip(context);
-            NotifTag tag = currentData.getTags().get(i);
 
-            Timber.d("Tags%s ", tag.title);
+        JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
+        holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
+
+        Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
+
+        for (NotifTag tag : currentData.getTags()) {
+
+            Chip chip = new Chip(context);
             chip.setText(tag.title);
             chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.color)));
-
+            Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile.ttf");
+            chip.setTypeface(typeface);
             Picasso.get().load(tag.icon).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -97,15 +100,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                 @Override
                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
                 }
 
                 @Override
                 public void onPrepareLoad(Drawable placeHolderDrawable) {
-
                 }
             });
-            chipGroup.addView(chip);
+
+            holder.tags.addView(chip);
         }
     }
 
@@ -118,24 +120,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         LinearLayout item;
         ImageView notifImage;
-        TextView notifType;
         TextView notificationTitle;
         TextView notificationDateStamp;
         TextView notificationDescription;
-        private final ChipGroup tags;
+        ChipGroup tags;
         OnNotifItemClickListener onNotifItemClickListener;
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
             notifImage = itemView.findViewById(R.id.notif_img);
+
             tags = itemView.findViewById(R.id.notif_tags);
-//            notifType = itemView.findViewById(R.id.notification_item_type);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             notificationDescription = itemView.findViewById(R.id.notification_item_description);
             item = itemView.findViewById(R.id.item);
             this.onNotifItemClickListener = onNotifItemClickListener;
             item.setOnClickListener(this);
+
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         }
 
         @Override
@@ -147,7 +151,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void addItem(NotificationModel notificationModel, int index) {
         dataList.add(index, notificationModel);
         notifyItemInserted(index);
-        notifyDataSetChanged();
     }
 
     private void setAnimation(View viewToAnimate, int position) {
@@ -162,7 +165,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public void setData(List<NotificationModel> dataList) {
         this.dataList = dataList;
-
         notifyDataSetChanged();
     }
 }

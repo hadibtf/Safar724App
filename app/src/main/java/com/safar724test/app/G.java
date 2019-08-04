@@ -37,7 +37,7 @@ public class G extends Application {
                     .addOnCompleteListener(
                             task -> {
                         if (!task.isSuccessful()) {
-                            Log.d("G", "Failed to get FCM token");
+                            Timber.d("Failed to get FCM token");
                             return;
                         }
                         notifToken = task.getResult().getToken();
