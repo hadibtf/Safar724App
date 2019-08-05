@@ -1,6 +1,9 @@
 package com.safar724test.app.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
+import com.safar724test.app.enums.CustomFonts;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotifActions;
 import com.safar724test.app.models.NotificationModel;
@@ -41,10 +45,9 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         TextView emptyRecyclerViewTextView = findViewById(R.id.empty_recycler_view_text_view);
         TextView badgeTextView = findViewById(R.id.unread_notification_badge_tv);
 
-        utils.setTextViewFont(actionBarTextView, 3);
-        utils.setTextViewFont(emptyRecyclerViewTextView, 3);
-        utils.setTextViewFont(badgeTextView, 3);
-
+        utils.setTextViewFont(actionBarTextView, CustomFonts.REGULAR);
+        utils.setTextViewFont(emptyRecyclerViewTextView, CustomFonts.REGULAR);
+        utils.setTextViewFont(badgeTextView, CustomFonts.REGULAR);
 
         dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
 
@@ -106,12 +109,22 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                         }
                 )
         );
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals("dismiss")) {
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, new IntentFilter("dismiss"));
     }
 
     @Override
     public void onItemClicked(NotificationModel notificationModel) {
         NotifActions notifAction = notificationModel.getNotifActions().get(0);
-        Intent intent = new Intent(this, WebViewActivity.class);
+        Intent intent = new Intent(this, NotificationsActivity.class);
         intent.putExtra("intendedUrl", notifAction.data);
         Timber.d("INTENT%s", notifAction.data);
         startActivity(intent);

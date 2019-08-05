@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
 import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.safar724test.app.R;
+import com.safar724test.app.enums.CustomFonts;
 import com.safar724test.app.models.NotifTag;
 import com.safar724test.app.models.NotificationModel;
 import com.safar724test.app.tools.JalaliTimeStamp;
@@ -67,17 +69,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         setAnimation(holder.item, position);
 
         if (currentData.isRead()) {
-            utils.setTextViewFont(holder.notificationTitle, utils.LIGHT);
+            utils.setTextViewFont(holder.notificationTitle, CustomFonts.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
         }
         else if (!currentData.isRead()) {
-            utils.setTextViewFont(holder.notificationTitle, utils.REGULAR);
+            utils.setTextViewFont(holder.notificationTitle, CustomFonts.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
-        utils.setTextViewFont(holder.notificationDescription, utils.REGULAR);
+        utils.setTextViewFont(holder.notificationDescription, CustomFonts.REGULAR);
         holder.notificationDescription.setText(currentData.getDescription());
         holder.notificationTitle.setText(currentData.getTitle());
-        utils.setTextViewFont(holder.notificationDateStamp, utils.LIGHT);
+        utils.setTextViewFont(holder.notificationDateStamp, CustomFonts.LIGHT);
 
         JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());

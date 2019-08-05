@@ -5,65 +5,61 @@ import android.graphics.Typeface;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.safar724test.app.enums.CustomFonts;
+
 public class Utils {
     private final Context context;
-    public final int ULTRA_LIGHT = 0;
-    public final int LIGHT = 1;
-    public final int MEDIUM = 2;
-    public final int REGULAR = 3;
-    public final int BOLD = 4;
-
 
     public Utils(Context context) {
         this.context = context;
     }
 
-    public void setTextViewFont(TextView textView, int font) {
+    public void setTextViewFont(TextView textView, CustomFonts font) {
         Typeface typeface;
         switch (font) {
-            case 0:
+            case ULTRA_LIGHT:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
                 textView.setTypeface(typeface);
                 break;
-            case 1:
+            case LIGHT:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_light.ttf");
                 textView.setTypeface(typeface);
                 break;
-            case 2:
+            case MEDIUM:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_medium.ttf");
                 textView.setTypeface(typeface);
                 break;
-            case 3:
+            case REGULAR:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile.ttf");
                 textView.setTypeface(typeface);
                 break;
-            case 4:
+            case BOLD:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_bold.ttf");
                 textView.setTypeface(typeface);
                 break;
         }
     }
 
-    public void setButtonFont(Button button, int font) {
+    public void setButtonFont(Button button, CustomFonts font) {
         Typeface typeface;
         switch (font) {
-            case 0:
+            case ULTRA_LIGHT:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
                 button.setTypeface(typeface);
                 break;
-            case 1:
+            case LIGHT:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_light.ttf");
                 button.setTypeface(typeface);
                 break;
-            case 2:
+            case MEDIUM:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_medium.ttf");
                 button.setTypeface(typeface);
                 break;
-            case 3:
+            case REGULAR:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile.ttf");
                 button.setTypeface(typeface);
                 break;
-            case 4:
+            case BOLD:
                 typeface = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_bold.ttf");
                 button.setTypeface(typeface);
                 break;

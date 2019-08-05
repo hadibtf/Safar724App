@@ -1,22 +1,18 @@
 package com.safar724test.app.activities;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.safar724test.app.G;
@@ -24,35 +20,22 @@ import com.safar724test.app.R;
 
 import java.util.HashMap;
 
-public class WebViewActivity extends Activity {
-    private WebView webView;
-    private boolean clickedOnce = false;
-    private boolean firstLoadingDone = false;
-
+public class NotificationWebView extends AppCompatActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        G g = (G) getApplication();
+        setContentView(R.layout.activity_notification_web_view);
 
-        if (g.isNetworkAvailable()) init();
+        WebView webView = findViewById(R.id.web_view_notif);
 
-
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private void init() {
-        if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-
-
-        webView = findViewById(R.id.web_view);
+        Intent intent = getIntent();
+        String intendedUrl = intent.getStringExtra("intendedUrl");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setGeolocationEnabled(true);
         webView.canGoBack();
-        webView.loadUrl("https://mob.safar724.com/");
+        webView.loadUrl(intendedUrl);
+
         WebViewClient webViewClient = new WebViewClient() {
 
             @Override
@@ -77,25 +60,12 @@ public class WebViewActivity extends Activity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                ConstraintLayout constraintLayout = findViewById(R.id.loading_view);
+                ConstraintLayout constraintLayout = findViewById(R.id.loading_view_notif);
                 constraintLayout.setVisibility(View.GONE);
                 super.onPageFinished(view, url);
             }
         };
         webView.setWebViewClient(webViewClient);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (clickedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        clickedOnce = true;
-        Toast.makeText(this, "Press Back again to exit!", Toast.LENGTH_LONG).show();
-        webView.goBack();
-        Handler handler = new Handler();
-        handler.postDelayed(() -> clickedOnce = false, 2000);
     }
 
     private HashMap<String, String> getHeaders() {
@@ -118,6 +88,14 @@ public class WebViewActivity extends Activity {
         headerExtras.put("X-APP-VERSION-NAME", versionName);
 
         return headerExtras;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, NotificationsActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
 
