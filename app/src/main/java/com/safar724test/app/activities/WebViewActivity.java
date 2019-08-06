@@ -10,11 +10,14 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -79,6 +82,7 @@ public class WebViewActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 ConstraintLayout constraintLayout = findViewById(R.id.loading_view);
                 constraintLayout.setVisibility(View.GONE);
+                showAlertDialog();
                 super.onPageFinished(view, url);
             }
         };
@@ -118,6 +122,12 @@ public class WebViewActivity extends Activity {
         headerExtras.put("X-APP-VERSION-NAME", versionName);
 
         return headerExtras;
+    }
+
+    private void showAlertDialog() {
+        final View popUpView = LayoutInflater.from(WebViewActivity.this).inflate(R.layout.custom_dialog, null);
+        final PopupWindow popupWindow = new PopupWindow(popUpView);
+        popupWindow.showAtLocation(popUpView, Gravity.CENTER, 0, 0);
     }
 }
 

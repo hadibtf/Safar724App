@@ -20,7 +20,8 @@ import com.safar724test.app.R;
 
 import java.util.HashMap;
 
-public class NotificationWebView extends AppCompatActivity {
+public class NotificationWebViewActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,4 +99,3 @@ public class NotificationWebView extends AppCompatActivity {
         finish();
     }
 }
-

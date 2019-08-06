@@ -25,10 +25,12 @@ public class ConnectionErrorActivity extends AppCompatActivity {
 
     private void init() {
         final Utils utils = new Utils(this);
-        TextView errorMessage = findViewById(R.id.error_message);
+        TextView errMsg = findViewById(R.id.error_message);
+        TextView errMsgTitle = findViewById(R.id.error_message_title);
         TextView retry = findViewById(R.id.retry);
-        utils.setTextViewFont(errorMessage, CustomFonts.REGULAR);
+        utils.setTextViewFont(errMsg, CustomFonts.REGULAR);
         utils.setTextViewFont(retry, CustomFonts.REGULAR);
+        utils.setTextViewFont(errMsgTitle, CustomFonts.BOLD);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Hello world!").setTitle("Error").setPositiveButton("yes",
                 (dialog, which) -> {

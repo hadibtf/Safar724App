@@ -124,7 +124,7 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
     @Override
     public void onItemClicked(NotificationModel notificationModel) {
         NotifActions notifAction = notificationModel.getNotifActions().get(0);
-        Intent intent = new Intent(this, NotificationsActivity.class);
+        Intent intent = new Intent(this, NotificationWebViewActivity.class);
         intent.putExtra("intendedUrl", notifAction.data);
         Timber.d("INTENT%s", notifAction.data);
         startActivity(intent);
@@ -136,6 +136,7 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         onBackPressed();
     }
 
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
