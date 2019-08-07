@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
     <LinearLayout
-        android:background="@drawable/custom_dialog_shape"
-        android:orientation="horizontal"
+        android:layout_width="300dp"
         android:layout_height="400dp"
-        android:layout_width="300dp">
+        android:background="@drawable/custom_dialog_shape"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
@@ -40,13 +41,12 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:padding="25dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/no_internet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/short_lorem_fa"/>
+                        android:padding="25dp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/no_internet" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -55,8 +55,8 @@
                     android:layout_weight="0.1"
                     android:gravity="center">
 
-                    <TextView
-
+                    <com.safar724test.app.CustomTextView
+                        android:id="@+id/msg_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -66,19 +66,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.1">
+                    android:layout_weight="0.1"
+                    android:gravity="center">
 
-                    <TextView
-                        android:textColor="@color/colorPrimary"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:text="خروج"
-                        android:gravity="center"
+                    <com.safar724test.app.CustomTextView
+                        android:id="@+id/exit_text_view"
                         android:layout_width="80dp"
-                        android:layout_height="40dp" />
-
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="خروج"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
             </LinearLayout>

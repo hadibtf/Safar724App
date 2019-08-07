@@ -23,7 +23,7 @@
             android:layout_width="200dp"
             android:layout_height="150dp"
             android:contentDescription="@string/safar724_logo"
-            android:src="@drawable/logo" />
+            app:srcCompat="@drawable/logo" />
 
         <View
             android:layout_width="200dp"
@@ -34,7 +34,7 @@
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@drawable/no_internet"
+        app:srcCompat="@drawable/no_internet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
