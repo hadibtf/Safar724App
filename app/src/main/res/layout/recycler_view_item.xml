@@ -30,12 +30,13 @@
                 android:layout_weight="0.75"
                 android:orientation="vertical">
 
-                <TextView
+                <com.safar724test.app.CustomTextView
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:id="@+id/notification_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight=".2"
-                    android:autoSizeTextType="uniform"
+                    app:custom_font="@string/iran_sans_mobile_bold"
                     android:gravity="top|right"
                     tools:text="تایتل اینجا نمایش داده میشود!"
                     tools:textColor="@color/notReadNotificationTextColor" />
@@ -44,16 +45,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight=".30">
-                    <TextView
+                    <com.safar724test.app.CustomTextView
+                        app:custom_font="@string/iran_sans_mobile_light"
                         android:id="@+id/notification_item_date_stamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight=".1"
-                        android:autoSizeTextType="uniform"
                         android:gravity="left"
                         tools:text="۱۲/۱/۱" />
 
-                    <TextView
+                    <com.safar724test.app.CustomTextView
+                        app:custom_font="@string/iran_sans_mobile_light"
                         android:id="@+id/notification_item_description"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

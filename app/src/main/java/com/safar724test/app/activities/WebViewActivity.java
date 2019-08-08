@@ -2,17 +2,13 @@ package com.safar724test.app.activities;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -24,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.safar724test.app.CustomDialog;
+import com.safar724test.app.CustomDialog.CustomDialogButtonClick;
 import com.safar724test.app.G;
 import com.safar724test.app.R;
 
@@ -32,17 +29,13 @@ import java.util.HashMap;
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
     private boolean clickedOnce = false;
-    private boolean firstLoadingDone = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
         G g = (G) getApplication();
-
         if (g.isNetworkAvailable()) init();
-
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -50,7 +43,6 @@ public class WebViewActivity extends AppCompatActivity {
         if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
-
 
         webView = findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -60,8 +52,8 @@ public class WebViewActivity extends AppCompatActivity {
         webView.loadUrl("https://mob.safar724.com/");
         WebViewClient webViewClient = new WebViewClient() {
 
-            @Override
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
                 if (url.contains("faq")) {
@@ -127,20 +119,10 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void showAlertDialog() {
-//        final CustomDialog c = new CustomDialog(this);
-//        CustomDialog.buttonClickListener l = () -> {
-//
-//        };
-        final Dialog dg = new Dialog(this);
-        dg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dg.setContentView(R.layout.custom_dialog);
-//        Utils utils = new Utils(this);
-//        TextView msg = dg.findViewById(R.id.msg_text_view);
-//        TextView exit = dg.findViewById(R.id.exit_text_view);
-//        utils.setTextViewFont(msg, CustomFonts.REGULAR);
-//        utils.setTextViewFont(exit, CustomFonts.BOLD);
-        dg.getWindow().setGravity(Gravity.CENTER);
-        dg.show();
+        CustomDialogButtonClick customDialogButtonClick =
+                () -> Toast.makeText(this, "Clicked!", Toast.LENGTH_LONG).show();
+        CustomDialog customDialog = new CustomDialog(this, customDialogButtonClick);
+        customDialog.show();
     }
 }
 

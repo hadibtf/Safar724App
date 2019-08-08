@@ -1,40 +1,56 @@
 package com.safar724test.app;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.util.AttributeSet;
 import android.widget.TextView;
 
+import androidx.core.widget.TextViewCompat;
+
 public class CustomTextView extends TextView {
+
     public CustomTextView(Context context) {
         super(context);
-//        Typeface ultra_light = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_ultralight.ttf");
-//        Typeface light = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_light.ttf");
-//        Typeface medium = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_medium.ttf");
-//        Typeface regular = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile.ttf");
-        Typeface bold = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans_mobile_bold.ttf");
-        this.setTypeface(bold);
-//        TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.CustomTextView);
-//        int font = typedArray.getInt(R.styleable.CustomTextView_custom_font,0);
-//        switch (font) {
-//            case 0:
-//                this.setTypeface(ultra_light);
-//                break;
-//            case 1:
-//                this.setTypeface(light);
-//                break;
-//            case 2:
-//                this.setTypeface(medium);
-//                break;
-//            case 3:
-//                this.setTypeface(regular);
-//                break;
-//            case 4:
-//                this.setTypeface(bold);
-//                break;
-//
-//        }
-//        typedArray.recycle();
+        init(null);
+    }
+
+    public CustomTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(attrs);
+    }
+
+    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(attrs);
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public CustomTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(attrs);
+    }
+
+    private void init(AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomTextView);
+            String fontName = a.getString(R.styleable.CustomTextView_custom_font);
+            boolean autoSize = a.getBoolean(R.styleable.CustomTextView_auto_size, false);
+            try {
+                if (fontName != null) {
+                    Typeface myTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/" + fontName + ".ttf");
+                    setTypeface(myTypeface);
+                }
+                if (autoSize) {
+                    TextViewCompat.setAutoSizeTextTypeWithDefaults(this, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            a.recycle();
+        }
+    }
 }

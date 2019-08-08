@@ -1,9 +1,6 @@
 package com.safar724test.app.activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -17,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.safar724test.app.R;
 import com.safar724test.app.adapters.MyAdapter;
 import com.safar724test.app.databases.NotificationDataDatabase;
-import com.safar724test.app.enums.CustomFonts;
 import com.safar724test.app.interfaces.NotificationDataDao;
 import com.safar724test.app.models.NotifActions;
 import com.safar724test.app.models.NotificationModel;
@@ -29,45 +25,42 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class NotificationsActivity extends AppCompatActivity implements MyAdapter.OnNotifItemClickListener {
-    private MyAdapter adapter;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private NotificationDataDao dao;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean firstStream = true;
+    private NotificationDataDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-
-        Utils utils = new Utils(this);
-
-        TextView actionBarTextView = findViewById(R.id.action_bar_text_view);
-        TextView emptyRecyclerViewTextView = findViewById(R.id.empty_recycler_view_text_view);
-        TextView badgeTextView = findViewById(R.id.unread_notification_badge_tv);
-
-        utils.setTextViewFont(actionBarTextView, CustomFonts.REGULAR);
-        utils.setTextViewFont(emptyRecyclerViewTextView, CustomFonts.REGULAR);
-        utils.setTextViewFont(badgeTextView, CustomFonts.REGULAR);
-
-        dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        init();
+    }
 
-        RecyclerView notificationsRecyclerView = findViewById(R.id.notifications_recycler_view);
+    private void init() {
+        //Init Database access object
+        dao = NotificationDataDatabase.getInstance(this).notificationDataDao();
 
-        notificationsRecyclerView.setHasFixedSize(true);
+        //Init Notification RecyclerView adapter
+        MyAdapter adapter = new MyAdapter(this, this);
 
+        //Init LinearLayoutManager for Notification RecyclerView layout manager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
+        //Init TextViews
+        TextView emptyRecyclerViewTextView = findViewById(R.id.empty_recycler_view_text_view);
+        TextView badgeTextView = findViewById(R.id.unread_notification_badge_tv);
+
+        //Init Notification RecyclerView
+        RecyclerView notificationsRecyclerView = findViewById(R.id.notifications_recycler_view);
+        notificationsRecyclerView.setHasFixedSize(true);
         notificationsRecyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new MyAdapter(this, this);
-
         notificationsRecyclerView.setAdapter(adapter);
 
+        //Subscribe on our database stream
         compositeDisposable.add(dao.getNotificationModelList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -104,21 +97,16 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
                                     return;
                                 }
                                 unreadNotificationBadge.setVisibility(View.VISIBLE);
+                                Utils utils = new Utils(this);
                                 badgeTextView.setText(utils.faToEn(String.valueOf(unreadMsgQuantity)));
                             }
                         }
                 )
         );
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (action.equals("dismiss")) {
-                    finish();
-                }
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter("dismiss"));
+    }
+
+    public void toolbarBackBt(View view) {
+        onBackPressed();
     }
 
     @Override
@@ -130,10 +118,6 @@ public class NotificationsActivity extends AppCompatActivity implements MyAdapte
         startActivity(intent);
         notificationModel.setIsRead(true);
         dao.updateNotificationModel(notificationModel);
-    }
-
-    public void toolbarBackBt(View view) {
-        onBackPressed();
     }
 
     @Override

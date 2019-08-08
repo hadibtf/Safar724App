@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.FontRes;
 import androidx.annotation.NonNull;
-import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -35,8 +32,6 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private Context context;
@@ -67,19 +62,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Utils utils = new Utils(context);
         NotificationModel currentData = dataList.get(position);
         setAnimation(holder.item, position);
-
         if (currentData.isRead()) {
             utils.setTextViewFont(holder.notificationTitle, CustomFonts.LIGHT);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.readNotificationTextColor));
-        }
-        else if (!currentData.isRead()) {
+        } else if (!currentData.isRead()) {
             utils.setTextViewFont(holder.notificationTitle, CustomFonts.REGULAR);
             holder.notificationTitle.setTextColor(context.getResources().getColor(R.color.notReadNotificationTextColor));
         }
-        utils.setTextViewFont(holder.notificationDescription, CustomFonts.REGULAR);
         holder.notificationDescription.setText(currentData.getDescription());
         holder.notificationTitle.setText(currentData.getTitle());
-        utils.setTextViewFont(holder.notificationDateStamp, CustomFonts.LIGHT);
 
         JalaliTimeStamp jalaliTimeStamp = new JalaliTimeStamp(currentData.getDate().substring(0, 10).trim());
         holder.notificationDateStamp.setText(jalaliTimeStamp.getDateInPersian());
@@ -87,7 +78,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         Picasso.get().load(currentData.getIcon()).placeholder(R.drawable.ic_notifications_grey).into(holder.notifImage);
 
         for (NotifTag tag : currentData.getTags()) {
-
             Chip chip = new Chip(context);
             chip.setText(tag.title);
             chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.color)));
@@ -108,7 +98,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 public void onPrepareLoad(Drawable placeHolderDrawable) {
                 }
             });
-
             holder.tags.addView(chip);
         }
     }
@@ -130,18 +119,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         ViewHolder(View itemView, OnNotifItemClickListener onNotifItemClickListener) {
             super(itemView);
-            notifImage = itemView.findViewById(R.id.notif_img);
-
+            item = itemView.findViewById(R.id.item);
             tags = itemView.findViewById(R.id.notif_tags);
+            notifImage = itemView.findViewById(R.id.notif_img);
             notificationTitle = itemView.findViewById(R.id.notification_item_title);
             notificationDateStamp = itemView.findViewById(R.id.notification_item_date_stamp);
             notificationDescription = itemView.findViewById(R.id.notification_item_description);
-            item = itemView.findViewById(R.id.item);
             this.onNotifItemClickListener = onNotifItemClickListener;
             item.setOnClickListener(this);
-
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(notificationDateStamp, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(notificationTitle, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         }
 
         @Override

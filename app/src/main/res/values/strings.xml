@@ -16,4 +16,9 @@
     <string name="retry">تلاش مجدد</string>
     <string name="no_wifi_image">No connection image</string>
     <string name="safar724_logo">Safar724 Logo</string>
+    <string name="iran_sans_mobile_ultralight">iran_sans_mobile_ultralight</string>
+    <string name="iran_sans_mobile_light">iran_sans_mobile_light</string>
+    <string name="iran_sans_mobile_medium">iran_sans_mobile_medium</string>
+    <string name="iran_sans_mobile">iran_sans_mobile</string>
+    <string name="iran_sans_mobile_bold">iran_sans_mobile_bold</string>
 </resources>

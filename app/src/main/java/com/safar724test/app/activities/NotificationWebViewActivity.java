@@ -11,10 +11,12 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.safar724test.app.CustomDialog;
 import com.safar724test.app.G;
 import com.safar724test.app.R;
 
@@ -97,5 +99,12 @@ public class NotificationWebViewActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void showAlertDialog() {
+        CustomDialog.CustomDialogButtonClick customDialogButtonClick =
+                () -> Toast.makeText(this, "Clicked!", Toast.LENGTH_LONG).show();
+        CustomDialog customDialog = new CustomDialog(this, customDialogButtonClick);
+        customDialog.show();
     }
 }
